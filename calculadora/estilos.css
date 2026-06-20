@@ -147,16 +147,17 @@ h1 {
 .cuadricula {
   background: var(--bg-calc);
   border: 1px solid var(--border-calc);
-  backdrop-filter: blur(35px); /* Desenfoque extremo de Apple */
+  backdrop-filter: blur(35px);
   -webkit-backdrop-filter: blur(35px);
-  padding: 24px;
-  border-radius: 36px;
+  padding: 20px;
+  border-radius: 32px;
   box-shadow: var(--shadow-calc);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto repeat(5, 54px);
-  gap: 14px; /* Un poco más de separación realza el relieve individual */
-  width: 345px;
+  gap: 12px;
+  width: 100%;        /* Cambia de 340px fijo a 100% fluido */
+  max-width: 340px;  /* Evita que se estire de más en pantallas grandes */
   box-sizing: border-box;
 }
 
@@ -343,7 +344,8 @@ h2 {
   list-style: none;
   padding: 0;
   margin: 20px auto 40px;
-  width: 340px;
+  width: 100%;       /* Cambia a 100% fluido */
+  max-width: 340px;  /* Mantiene proporción con la cuadrícula */
   max-height: 160px;
   overflow-y: auto;
 }
@@ -358,8 +360,10 @@ h2 {
   border: 1px solid var(--border-btn);
   box-shadow: var(--shadow-btn);
   cursor: pointer;
-  transition: all 0.15s ease;
+  box-sizing: border-box; /* Asegura que los paddings no ensanchen la celda */
 }
+
+
 
 #history li:hover {
   transform: translateX(-3px) scale(1.01);
@@ -380,4 +384,20 @@ h2 {
   font-weight: 700;
   color: var(--text-accent);
   font-family: "Orbitron", sans-serif;
+}
+@media (max-width: 360px) {
+  .cuadricula {
+    padding: 14px;
+    gap: 8px;
+  }
+  button {
+    font-size: 18px;
+    border-radius: 14px;
+  }
+  .display-container {
+    height: 56px;
+  }
+  input[type="text"] {
+    font-size: 22px;
+  }
 }
