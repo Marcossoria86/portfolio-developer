@@ -176,6 +176,7 @@ h1 {
 
 input[type="text"] {
   flex-grow: 1;
+  min-width: 0;.
   height: 100%;
   text-align: right;
   font-size: 7vw; /* Cambia de 26px a 7vw para que la letra se encoja elásticamente en celulares */
