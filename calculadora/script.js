@@ -37,13 +37,21 @@ function formatearParaLatam(cadena) {
   });
 }
 
-function actualizarDisplay() {
+ffunction actualizarDisplay() {
   const len = currentInput.length;
-  display.style.fontSize = len > 20 ? "12px" : len > 14 ? "16px" : "22px";
+  display.style.fontSize = len > 20 ? '12px' : len > 14 ? '16px' : '22px';
+  
+  if (clearBtn) clearBtn.textContent = currentInput ? 'C' : 'AC';
 
-  if (clearBtn) clearBtn.textContent = currentInput ? "C" : "AC";
-  display.value = currentInput ? formatearParaLatam(currentInput) : "0";
+  // Primero formateamos los números con el sistema Latam (. para miles, , para decimales)
+  let textoBonito = currentInput ? formatearParaLatam(currentInput) : '0';
+
+  // Agregamos espacios prolijos alrededor de los operadores para que no se vea todo amontonado
+  textoBonito = textoBonito.replace(/([\+\-\*\/^])/g, ' $1 ');
+
+  display.value = textoBonito;
 }
+
 
 copyBtn.addEventListener("click", () => {
   if (!currentInput || currentInput === "Error") return;
