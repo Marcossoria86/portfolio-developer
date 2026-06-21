@@ -37,19 +37,38 @@ function formatearParaLatam(cadena) {
   });
 }
 
-ffunction actualizarDisplay() {
+function actualizarDisplay() {
   const len = currentInput.length;
   display.style.fontSize = len > 20 ? '12px' : len > 14 ? '16px' : '22px';
   
   if (clearBtn) clearBtn.textContent = currentInput ? 'C' : 'AC';
 
-  // Primero formateamos los números con el sistema Latam (. para miles, , para decimales)
-  let textoBonito = currentInput ? formatearParaLatam(currentInput) : '0';
+  if (!currentInput) {
+    display.value = '0';
+    return;
+  }
 
-  // Agregamos espacios prolijos alrededor de los operadores para que no se vea todo amontonado
-  textoBonito = textoBonito.replace(/([\+\-\*\/^])/g, ' $1 ');
+  // Separamos la ecuación por operadores para formatear los números de forma individual
+  let partes = currentInput.split(/([\+\-\*\/^()])/g);
+  
+  // Procesamos cada fragmento: si es un número le ponemos puntos y comas, si es operador lo dejamos igual
+  let resultadoVisual = partes.map(part => {
+    if (!part || isNaN(part) || part === ' ') {
+      // Si es un operador aritmético (+, -, *, /) o paréntesis, le inyectamos los espacios prolijos
+      if (/[\+\-\*\/^]/.test(part)) return ` ${part} `;
+      return part;
+    }
+    // Si es un número limpio, aplicamos el formato Latam (. para miles, , para decimales)
+    if (part.includes('.')) {
+      const subPartes = part.split('.');
+      const entera = parseFloat(subPartes[0]).toLocaleString('de-DE');
+      return entera + ',' + subPartes[1];
+    }
+    return parseFloat(part).toLocaleString('de-DE');
+  }).join('');
 
-  display.value = textoBonito;
+  // Limpiamos posibles dobles espacios accidentales para que quede perfecto
+  display.value = resultadoVisual.replace(/\s+/g, ' ').trim();
 }
 
 
