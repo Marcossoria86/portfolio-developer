@@ -39,38 +39,43 @@ function formatearParaLatam(cadena) {
 
 function actualizarDisplay() {
   const len = currentInput.length;
-  display.style.fontSize = len > 20 ? '12px' : len > 14 ? '16px' : '22px';
-  
-  if (clearBtn) clearBtn.textContent = currentInput ? 'C' : 'AC';
+  display.style.fontSize = len > 20 ? "12px" : len > 14 ? "16px" : "22px";
+
+  if (clearBtn) clearBtn.textContent = currentInput ? "C" : "AC";
 
   if (!currentInput) {
-    display.value = '0';
+    display.value = "0";
     return;
   }
 
   // Separamos la ecuación por operadores para formatear los números de forma individual
   let partes = currentInput.split(/([\+\-\*\/^()])/g);
-  
+
   // Procesamos cada fragmento: si es un número le ponemos puntos y comas, si es operador lo dejamos igual
-  let resultadoVisual = partes.map(part => {
-    if (!part || isNaN(part) || part === ' ') {
-      // Si es un operador aritmético (+, -, *, /) o paréntesis, le inyectamos los espacios prolijos
-      if (/[\+\-\*\/^]/.test(part)) return ` ${part} `;
-      return part;
-    }
-    // Si es un número limpio, aplicamos el formato Latam (. para miles, , para decimales)
-    if (part.includes('.')) {
-      const subPartes = part.split('.');
-      const entera = parseFloat(subPartes[0]).toLocaleString('de-DE');
-      return entera + ',' + subPartes[1];
-    }
-    return parseFloat(part).toLocaleString('de-DE');
-  }).join('');
+  let resultadoVisual = partes
+    .map((part) => {
+      if (!part || isNaN(part) || part === " ") {
+        // Si es un operador aritmético (+, -, *, /) o paréntesis, le inyectamos los espacios prolijos
+        if (/[\+\-\*\/^]/.test(part)) return ` ${part} `;
+        return part;
+      }
+      // Si es un número limpio, aplicamos el formato Latam (. para miles, , para decimales)
+      if (part.includes(".")) {
+        const subPartes = part.split(".");
+        const entera = parseFloat(subPartes[0]).toLocaleString("de-DE");
+        return entera + "," + subPartes[1];
+      }
+      return parseFloat(part).toLocaleString("de-DE");
+    })
+    .join("");
 
   // Limpiamos posibles dobles espacios accidentales para que quede perfecto
-  display.value = resultadoVisual.replace(/\s+/g, ' ').trim();
+  display.value = resultadoVisual
+    .replace(/\s+/g, " ")
+    .trim()
+    .replaceAll("*", "×")
+    .replaceAll("/", "÷");
 }
-
 
 copyBtn.addEventListener("click", () => {
   if (!currentInput || currentInput === "Error") return;
@@ -97,8 +102,14 @@ function guardar() {
 function render() {
   historyList.innerHTML = "";
   historial.forEach((h, i) => {
+    let cuentaConEspacios = h.cuenta
+      .replaceAll("+", " + ")
+      .replaceAll("-", " - ")
+      .replaceAll("*", " × ")
+      .replaceAll("/", " ÷ ");
     const li = document.createElement("li");
-    li.innerHTML = `<div class="hist-text"><span class="hist-cuenta">${formatearParaLatam(h.cuenta)}</span><span class="hist-resultado">= ${formatearParaLatam(h.resultado)}</span></div><button class="delete-item-btn">🗑️</button>`;
+    // CORREGIDO: Cambiar h.cuenta por tu nueva variable procesada
+    li.innerHTML = `<div class="hist-text"><span class="hist-cuenta">${formatearParaLatam(cuentaConEspacios)}</span><span class="hist-resultado">= ${formatearParaLatam(h.resultado)}</span></div><button class="delete-item-btn">🗑️</button>`;
     const txt = li.querySelector(".hist-text");
     txt.addEventListener("click", () => {
       currentInput = h.resultado;
@@ -291,7 +302,18 @@ buttons.forEach((b) =>
       ],
       { duration: 100 },
     );
-    manejarEntrada(b.id, b.textContent);
+
+    // PISTA CONCEPTUAL: Creamos una variable variable para corregir el símbolo
+    let simboloReal = b.textContent;
+
+    if (simboloReal === "×") {
+      simboloReal = "*"; // Si es el botón lindo, le mandamos el asterisco al motor
+    } else if (simboloReal === "÷") {
+      simboloReal = "/"; // Si es el botón lindo, le mandamos la barra al motor
+    }
+
+    // Ahora le pasas 'simboloReal' en lugar de b.textContent
+    manejarEntrada(b.id, simboloReal);
   }),
 );
 
