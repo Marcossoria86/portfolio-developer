@@ -178,7 +178,8 @@ input[type="text"] {
   flex-grow: 1;
   height: 100%;
   text-align: right;
-  font-size: 26px;
+  font-size: 7vw; /* Cambia de 26px a 7vw para que la letra se encoja elásticamente en celulares */
+  max-font-size: 26px; /* Evita que se agrande demasiado en pantallas gigantes */
   font-family: "Orbitron", sans-serif;
   background: transparent;
   color: var(--text-main);
@@ -186,6 +187,7 @@ input[type="text"] {
   outline: none;
   font-weight: 700;
 }
+
 
 #copy-btn {
   width: 34px;
