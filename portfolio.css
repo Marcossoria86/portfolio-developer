@@ -44,12 +44,32 @@ a {
 
 /* --- COMPONENTES VISUALES BASE --- */
 .navbar {
+  position: sticky;
+  top: 15px;
+  z-index: 1000;
+
+  /* 1. Fondo oscuro traslúcido con cristal esmerilado */
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Borde sutil oscuro */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Sombra más densa para el fondo oscuro */
+  border-radius: 20px;
+
+  /* 2. Ancho más largo y elástico */
+  width: 90%; /* Ocupa la gran mayoría de la pantalla en dispositivos chicos */
+  max-width: 750px; /* CORREGIDO: Más larga (pasó de 550px a 750px) */
+
+  /* 3. Alineación total a la derecha */
+  margin-right: 5%; /* CORREGIDO: La empuja y la pega hacia el margen derecho */
+  margin-left: auto; /* Trabaja en equipo con el margin-right para alinear a la derecha */
+
+  /* 4. Centrado perfecto del contenido interno */
   display: flex;
   justify-content: space-between;
+  /* CORREGIDO: Centra el logo y los links adentro de la cápsula */
   align-items: center;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 24px 20px;
+  padding: 10px 24px; /* Espacio interno para que respire */
 }
 .logo {
   font-size: 22px;
@@ -63,6 +83,13 @@ a {
   display: flex;
   list-style: none;
   gap: 30px;
+  display: flex;
+  gap: 20px; /* Espacio de separación entre cada palabra del menú */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 .nav-links a {
   font-size: 14px;
