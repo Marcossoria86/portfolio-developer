@@ -90,7 +90,7 @@ body {
   background: var(--bg-app);
   background-size: var(--bg-app-size);
   color: var(--text-main);
-  padding: 40px 20px;
+  padding: 15px 20px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -112,7 +112,7 @@ body {
   width: 280px;
   height: 280px;
   background: var(--blob-c1);
-  top: 5%;
+  top: -5%;
   left: 10%;
 }
 .blob-2 {
@@ -127,20 +127,20 @@ h1 {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 1.5px;
-  margin-bottom: 20px;
+  margin-top: 10px;
   opacity: 0.8;
   text-transform: uppercase;
 }
 
 .theme-btn {
-  position: absolute;
-  top: 25px;
-  right: 25px;
   width: auto;
   height: auto;
   padding: 8px 14px;
   font-size: 12px;
   border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  align-self: flex-end;
 }
 
 /* --- ESTRUCTURA DE LA CALCULADORA --- */
@@ -156,8 +156,8 @@ h1 {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto repeat(5, 54px);
   gap: 12px;
-  width: 100%;        /* Cambia de 340px fijo a 100% fluido */
-  max-width: 340px;  /* Evita que se estire de más en pantallas grandes */
+  width: 100%; /* Cambia de 340px fijo a 100% fluido */
+  max-width: 340px; /* Evita que se estire de más en pantallas grandes */
   box-sizing: border-box;
 }
 
@@ -176,12 +176,16 @@ h1 {
 
 input[type="text"] {
   flex-grow: 1;
-  min-width: 0;.
+  min-width: 0;
   height: 100%;
   text-align: right;
   font-size: 7vw; /* Cambia de 26px a 7vw para que la letra se encoja elásticamente en celulares */
-  font-size: clamp(16px, 7vw, 26px); /* Elige el tamaño fluido, pero nunca baja de 16px ni sube de 26px */
-/* Evita que se agrande demasiado en pantallas gigantes */
+  font-size: clamp(
+    16px,
+    7vw,
+    26px
+  ); /* Elige el tamaño fluido, pero nunca baja de 16px ni sube de 26px */
+  /* Evita que se agrande demasiado en pantallas gigantes */
   font-family: "Orbitron", sans-serif;
   grid-column: span 4;
 
@@ -191,7 +195,6 @@ input[type="text"] {
   outline: none;
   font-weight: 700;
 }
-
 
 #copy-btn {
   width: 34px;
@@ -220,7 +223,10 @@ button {
   background: var(--bg-btn);
   color: var(--text-main);
   cursor: pointer;
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
   box-shadow: var(--shadow-btn); /* Relieve hacia afuera */
   display: flex;
   align-items: center;
@@ -307,7 +313,7 @@ button:active {
 
 /* --- SECCIÓN HISTORIAL --- */
 h2 {
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -348,10 +354,10 @@ h2 {
 
 #history {
   list-style: none;
-  padding: 0;
+  padding: 0 6px;
   margin: 20px auto 40px;
-  width: 100%;       /* Cambia a 100% fluido */
-  max-width: 340px;  /* Mantiene proporción con la cuadrícula */
+  width: 100%; /* Cambia a 100% fluido */
+  max-width: 340px; /* Mantiene proporción con la cuadrícula */
   max-height: 160px;
   overflow-y: auto;
 }
@@ -368,8 +374,6 @@ h2 {
   cursor: pointer;
   box-sizing: border-box; /* Asegura que los paddings no ensanchen la celda */
 }
-
-
 
 #history li:hover {
   transform: translateX(-3px) scale(1.01);
