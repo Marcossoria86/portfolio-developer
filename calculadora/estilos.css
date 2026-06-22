@@ -286,6 +286,7 @@ button:active {
 }
 
 #multiply,
+#decimal,
 #subtract {
   font-size: 26px;
 }
