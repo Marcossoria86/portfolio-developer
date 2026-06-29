@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marcos Soria | Frontend Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="portfolio.css?v=2" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iYmxhY2siLz48dGV4dCB4PSI1MCIgeT0iNjciIGZvbnQtc2l6ZT0iNDgiIGZvbnQtZmFtaWx5PSJtb25vc3BhY2UiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Jmx0Oy8mZ3Q7PC90ZXh0Pjwvc3ZnPg=="
+    />
+  </head>
+  <body>
+    <!-- Barra de Navegación -->
+    <nav class="navbar">
+      <div class="logo">MS<span>.</span></div>
+      <ul class="nav-links">
+        <li><a href="#about">Sobre mí</a></li>
+        <li><a href="#skills">Tecnologías</a></li>
+        <li><a href="#projects">Proyectos</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- Sección de Bienvenida (Hero) -->
+    <header class="hero" id="about">
+      <div class="hero-content">
+        <span class="badge">Disponible para trabajar</span>
+        <h1>
+          Desarrollo interfaces web <br /><span class="text-gradient"
+            >interactivas y eficientes</span
+          >
+        </h1>
+        <p class="hero-subtitle">
+          Hola, soy <strong>Marcos Soria</strong>. Desarrollador Frontend
+          enfocado en crear productos digitales fluidos, accesibles y con lógica
+          sólida en JavaScript puro.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">Ver proyectos</a>
+          <a href="#contact" class="btn btn-secondary">Hablemos</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sección de Tecnologías -->
+    <section class="skills-section" id="skills">
+      <h2 class="section-title">Tecnologías & Habilidades</h2>
+      <div class="skills-container">
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon">🎨</div>
+            <h4>HTML5 & CSS3</h4>
+            <p>
+              Estructuras semánticas, maquetación adaptativa, Flexbox, CSS Grid
+              y Variables globales.
+            </p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">⚡</div>
+            <h4>JavaScript (ES6+)</h4>
+            <p>
+              Manipulación avanzada del DOM, control de eventos, programación
+              modular y lógica sin librerías.
+            </p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">📦</div>
+            <h4>Git & GitHub</h4>
+            <p>
+              Control de versiones, ramas, despliegues automáticos mediante
+              GitHub Pages y flujos de trabajo eficientes.
+            </p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">⚛️</div>
+            <h4>React (En aprendizaje)</h4>
+            <p>
+              Creación de componentes interactivos, manejo de estados
+              funcionales y consumo de APIs REST.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Proyectos Actuales y Futuros -->
+    <main class="projects-section" id="projects">
+      <h2 class="section-title">Proyectos destacados</h2>
+      <div class="projects-grid">
+        <!-- Proyecto Actual: Tu Calculadora -->
+        <article class="project-card">
+          <div class="project-image src-calc">🧮</div>
+          <div class="project-info">
+            <span class="project-tag">Proyecto Activo</span>
+            <h3>Calculadora Pro Avanzada</h3>
+            <p class="project-description">
+              Una herramienta web interactiva con cambio de tema, historial
+              dinámico reutilizable, conversores integrados y un parser
+              aritmético desarrollado de forma nativa para evitar dependencias
+              externas vulnerables.
+            </p>
+            <div class="project-tech">
+              <span>HTML5</span>
+              <span>CSS Variables</span>
+              <span>JS (ES6+)</span>
+              <span>Web Storage</span>
+            </div>
+            <div class="project-links">
+              <button
+                id="open-calc-btn"
+                class="link-live"
+                style="
+                  background: none;
+                  border: none;
+                  font-family: inherit;
+                  font-weight: 600;
+                  cursor: pointer;
+                  padding: 0;
+                "
+              >
+                Probar Demo 🚀
+              </button>
+              <a
+                href="https://github.com/Marcossoria86/portfolio-developer"
+                target="_blank"
+                class="link-code"
+                >Ver Código 💻</a
+              >
+
+              >
+            </div>
+          </div>
+        </article>
+        <!-- Proyecto Futuro 1 -->
+        <article class="project-card future-card">
+          <div class="project-image src-future">📝</div>
+          <div class="project-info">
+            <span class="project-tag tag-future">Próximamente</span>
+            <h3>Gestor de Tareas Inteligente (Task App)</h3>
+            <p class="project-description">
+              Aplicación de productividad enfocada en la priorización de
+              actividades mediante algoritmos de tiempo. Integrará filtros de
+              ordenamiento y almacenamiento en bases de datos locales.
+            </p>
+            <div class="project-tech">
+              <span>JavaScript</span>
+              <span>CSS Animations</span>
+              <span>IndexedDB</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Proyecto Futuro 2 -->
+        <article class="project-card future-card">
+          <div class="project-image src-future">☁️</div>
+          <div class="project-info">
+            <span class="project-tag tag-future">En planificación</span>
+            <h3>Aplicación del Clima Pro</h3>
+            <p class="project-description">
+              Plataforma meteorológica interactiva enfocada en el consumo e
+              interpretación de APIs públicas para consultar el clima mundial,
+              incluyendo geolocalización del usuario.
+            </p>
+            <div class="project-tech">
+              <span>React.js</span>
+              <span>Rest APIs</span>
+              <span>Tailwind CSS</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <!-- Sección de Contacto -->
+    <footer class="contact-section" id="contact">
+      <div class="contact-container">
+        <h2>¿Tienes un proyecto en mente?</h2>
+        <p>
+          Estoy buscando oportunidades profesionales a tiempo completo y
+          proyectos freelance como desarrollador junior. Escríbeme y lo hacemos
+          realidad.
+        </p>
+
+        <form
+          action="https://formsubmit.co/molotoria@gmail.com"
+          method="POST"
+          id="portfolio-form"
+          class="contact-form"
+        >
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="form-group">
+            <!-- Agregamos name="name" -->
+            <input
+              type="text"
+              id="user_name"
+              name="name"
+              placeholder="Tu Nombre"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <!-- Agregamos name="email" -->
+            <input
+              type="email"
+              id="user_email"
+              name="email"
+              placeholder="Tu Correo Electrónico"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <!-- Agregamos name="message" -->
+            <textarea
+              id="user_message"
+              name="message"
+              rows="5"
+              placeholder="Cuéntame sobre tu proyecto o propuesta laboral..."
+              required
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">
+            Enviar Mensaje ✉️
+          </button>
+        </form>
+        <p class="footer-credits">
+          © 2026 Marcos Soria. Diseñado y programado con código limpio.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Estructura de la Ventana Modal Flotante -->
+    <div id="calc-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Demo Interactiva: Calculadora Pro</h3>
+          <button id="close-calc-btn" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <iframe
+            src="calculadora/index.html"
+            title="Calculadora Pro"
+            class="modal-iframe"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a
+        href="https://www.linkedin.com/in/marcos-soria-74069b118/"
+        target="_blank"
+        >LinkedIn</a
+      >
+      <a href="https://github.com/Marcossoria86" target="_blank">GitHub</a>
+    </div>
+    <script src="portfolio.js"></script>
+  </body>
+</html>
