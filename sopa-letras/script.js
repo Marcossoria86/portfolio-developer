@@ -1,3 +1,94 @@
+// --- SISTEMA DE AUDIO PULIDO (WEB AUDIO API) ---
+const AudioJuego = {
+  ctx: null,
+  init() {
+    try {
+      if (!this.ctx) {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    } catch (e) {
+      console.log("AudioContext no soportado");
+    }
+  },
+  playClick() {
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.type = "sine";
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(1200, this.ctx.currentTime);
+      osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(
+        400,
+        this.ctx.currentTime + 0.04,
+      );
+
+      gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        this.ctx.currentTime + 0.04,
+      );
+
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.04);
+    } catch (e) {}
+  },
+  playExito() {
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const t = this.ctx.currentTime;
+      this.crearNotaModerna(523.25, t, 0.12);
+      this.crearNotaModerna(659.25, t + 0.04, 0.12);
+      this.crearNotaModerna(783.99, t + 0.08, 0.12);
+      this.crearNotaModerna(987.77, t + 0.12, 0.25);
+    } catch (e) {}
+  },
+  playVictoria() {
+    this.init();
+    if (!this.ctx) return;
+    try {
+      const t = this.ctx.currentTime;
+      const notas = [
+        523.25, 587.33, 659.25, 698.46, 783.99, 880.0, 987.77, 1046.5,
+      ];
+      notas.forEach((frec, i) => {
+        this.crearNotaModerna(frec, t + i * 0.06, 0.3);
+      });
+    } catch (e) {}
+  },
+  crearNotaModerna(frecuencia, inicio, duracion) {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    osc.type = "triangle";
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(2000, inicio);
+    filter.frequency.exponentialRampToValueAtTime(1000, inicio + duracion);
+
+    osc.frequency.setValueAtTime(frecuencia, inicio);
+    gain.gain.setValueAtTime(0.04, inicio);
+    gain.gain.exponentialRampToValueAtTime(0.001, inicio + duracion);
+
+    osc.start(inicio);
+    osc.stop(inicio + duracion);
+  },
+};
+
 const categoriasJuego = {
   web: [
     "JAVASCRIPT",
@@ -80,6 +171,82 @@ const categoriasJuego = {
     "CYBER",
     "BACKDOOR",
   ],
+  ia: [
+    "ALGORITMO",
+    "NEURONAL",
+    "DATASET",
+    "MODELO",
+    "PYTHON",
+    "TENSORFLOW",
+    "PYTORCH",
+    "CHATBOT",
+    "PROMPT",
+    "INFERENCIA",
+    "CLASIFICADOR",
+    "REGRESION",
+    "CLUSTERING",
+    "OVERFITTING",
+    "GRADIENTE",
+    "EMBEDDING",
+    "TRANSFORMER",
+    "TOKEN",
+    "VISION",
+    "NEURONA",
+    "ENTRENAMIENTO",
+    "ROBOTICA",
+    "AUTOMATIZACION",
+  ],
+  cloud: [
+    "DOCKER",
+    "KUBERNETES",
+    "CONTAINER",
+    "PIPELINE",
+    "JENKINS",
+    "TERRAFORM",
+    "AWS",
+    "AZURE",
+    "SERVERLESS",
+    "MICROSERVICIO",
+    "DEVOPS",
+    "CICD",
+    "NUBE",
+    "ESCALABILIDAD",
+    "LOADBALANCER",
+    "MONITOREO",
+    "LATENCIA",
+    "VIRTUALIZACION",
+    "ORQUESTACION",
+    "BACKUP",
+    "CLUSTER",
+    "NODO",
+    "DEPLOYMENT",
+    "INFRAESTRUCTURA",
+  ],
+  diseno: [
+    "WIREFRAME",
+    "PROTOTIPO",
+    "USABILIDAD",
+    "TIPOGRAFIA",
+    "PALETA",
+    "FIGMA",
+    "LAYOUT",
+    "RESPONSIVE",
+    "ACCESIBILIDAD",
+    "INTERFAZ",
+    "EXPERIENCIA",
+    "COMPONENTE",
+    "GRILLA",
+    "CONTRASTE",
+    "JERARQUIA",
+    "MOCKUP",
+    "ICONOGRAFIA",
+    "BRANDING",
+    "MINIMALISMO",
+    "INTERACCION",
+    "NAVEGACION",
+    "COLORIMETRIA",
+    "ESPACIADO",
+  ],
 };
 
 let bancoPalabras = [];
@@ -117,6 +284,7 @@ const txtProgreso = document.getElementById("num-progreso");
 const barraProgreso = document.getElementById("barra-progreso");
 
 function lanzarJuegoConCategoria(catId, catTxt) {
+  AudioJuego.init();
   bancoPalabras = categoriasJuego[catId];
   palabrasOrdenadas = [...bancoPalabras].sort((a, b) => b.length - a.length);
   document.getElementById("titulo-categoria").textContent = catTxt;
@@ -191,16 +359,24 @@ function inicializarJuego() {
 }
 
 function colocarPalabras() {
-  const vectors = [
-    { f: 0, c: 1 },
-    { f: 0, c: -1 },
-    { f: 1, c: 0 },
-    { f: -1, c: 0 },
-    { f: 1, c: 1 },
-    { f: 1, c: -1 },
-    { f: -1, c: 1 },
-    { f: -1, c: -1 },
+  // Le damos más "peso" a las diagonales repitiéndolas varias veces en el
+  // pool de direcciones posibles: así, al elegir una dirección al azar,
+  // es mucho más probable que salga una diagonal que una horizontal o
+  // vertical. Mantenemos los dos sentidos de cada diagonal (normal e
+  // invertida) repetidos por igual para que ninguno predomine.
+  const vectores = [
+    { f: 0, c: 1 }, // horizontal →
+    { f: 0, c: -1 }, // horizontal ← (invertida)
+    { f: 1, c: 0 }, // vertical ↓
+    { f: -1, c: 0 }, // vertical ↑ (invertida)
   ];
+  const diagonales = [
+    { f: 1, c: 1 }, // diagonal ↘
+    { f: 1, c: -1 }, // diagonal ↙
+    { f: -1, c: 1 }, // diagonal ↗ (invertida)
+    { f: -1, c: -1 }, // diagonal ↖ (invertida)
+  ];
+  const vectors = [...vectores, ...diagonales, ...diagonales];
   palabrasOrdenadas.forEach((palabra) => {
     let colocada = false,
       intentos = 0;
@@ -275,21 +451,30 @@ function calcularTrazoLinea(celdaActual) {
   } else return;
 
   const celdasDOM = tableroDiv.children;
+  const celdasPrevias = new Set(celdasSeleccionadas);
+
   for (let i = 0; i < celdasDOM.length; i++)
     celdasDOM[i].classList.remove("seleccionada");
   celdasSeleccionadas = [];
+  let huboCambio = false;
   for (let i = 0; i <= pasos; i++) {
     let celdaLinea =
       celdasDOM[(fInicio + dirF * i) * columnas + (cInicio + dirC * i)];
     if (celdaLinea) {
+      if (!celdasPrevias.has(celdaLinea)) huboCambio = true;
       celdasSeleccionadas.push(celdaLinea);
       celdaLinea.classList.add("seleccionada");
     }
+  }
+  if (huboCambio || celdasSeleccionadas.length !== celdasPrevias.size) {
+    AudioJuego.playClick();
   }
 }
 
 function iniciarSeleccion(e) {
   if (!e.target.classList.contains("celda")) return;
+  AudioJuego.init();
+  AudioJuego.playClick();
   seleccionando = true;
   celdaInicio = e.target;
   celdasSeleccionadas = [celdaInicio];
@@ -315,6 +500,7 @@ function finalizarSeleccion() {
 
   if (encontradaNow) {
     palabrasEncontradas.push(encontradaNow);
+    AudioJuego.playExito();
     const color =
       coloresPastel[palabrasEncontradas.length % coloresPastel.length];
     const inicio = celdasSeleccionadas[0];
@@ -336,6 +522,7 @@ function finalizarSeleccion() {
     if (palabrasEncontradas.length === palabrasEnTablero.length) {
       clearInterval(intervaloTiempo);
       btnPista.disabled = true;
+      AudioJuego.playVictoria();
       guardarRecord();
     }
   }
@@ -351,6 +538,8 @@ function manejarTouchStart(e) {
   const touch = e.touches[0];
   const el = document.elementFromPoint(touch.clientX, touch.clientY);
   if (el && el.classList.contains("celda")) {
+    AudioJuego.init();
+    AudioJuego.playClick();
     seleccionando = true;
     celdaInicio = el;
     celdasSeleccionadas = [celdaInicio];
@@ -489,3 +678,4 @@ btnPista.addEventListener("click", () => {
 
 btnVolver.addEventListener("click", volverAlMenu);
 window.onload = cargarRecordsMenu;
+
