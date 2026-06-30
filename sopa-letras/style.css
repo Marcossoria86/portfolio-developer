@@ -64,6 +64,38 @@ body {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tarjeta-categoria::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: rgba(96, 165, 250, 0.6); /* celeste pastel */
+}
+
+.tarjeta-categoria:nth-of-type(2)::before {
+  background: rgba(52, 211, 153, 0.6); /* verde menta pastel */
+}
+
+.tarjeta-categoria:nth-of-type(3)::before {
+  background: rgba(244, 114, 182, 0.6); /* rosa pastel */
+}
+
+.tarjeta-categoria:nth-of-type(4)::before {
+  background: rgba(167, 139, 250, 0.6); /* violeta pastel */
+}
+
+.tarjeta-categoria:nth-of-type(5)::before {
+  background: rgba(14, 165, 233, 0.6); /* celeste cielo pastel */
+}
+
+.tarjeta-categoria:nth-of-type(6)::before {
+  background: rgba(251, 191, 36, 0.6); /* amarillo pastel */
 }
 
 .tarjeta-categoria:hover {
@@ -315,3 +347,4 @@ body {
   background: #d2d2d7;
   border-radius: 10px;
 }
+
