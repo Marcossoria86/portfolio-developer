@@ -5,6 +5,11 @@
   --accent-blue: #0071e3;
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(0, 0, 0, 0.05);
+  --cell-size: 38px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -16,6 +21,7 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
+  padding: 16px;
   color: var(--text-primary);
   overflow-x: hidden;
 }
@@ -78,23 +84,19 @@ body {
   background: rgba(96, 165, 250, 0.6); /* celeste pastel */
 }
 
-.tarjeta-categoria:nth-of-type(2)::before {
+.tarjeta-categoria:nth-of-type(6n + 2)::before {
   background: rgba(52, 211, 153, 0.6); /* verde menta pastel */
 }
-
-.tarjeta-categoria:nth-of-type(3)::before {
+.tarjeta-categoria:nth-of-type(6n + 3)::before {
   background: rgba(244, 114, 182, 0.6); /* rosa pastel */
 }
-
-.tarjeta-categoria:nth-of-type(4)::before {
+.tarjeta-categoria:nth-of-type(6n + 4)::before {
   background: rgba(167, 139, 250, 0.6); /* violeta pastel */
 }
-
-.tarjeta-categoria:nth-of-type(5)::before {
+.tarjeta-categoria:nth-of-type(6n + 5)::before {
   background: rgba(14, 165, 233, 0.6); /* celeste cielo pastel */
 }
-
-.tarjeta-categoria:nth-of-type(6)::before {
+.tarjeta-categoria:nth-of-type(6n)::before {
   background: rgba(251, 191, 36, 0.6); /* amarillo pastel */
 }
 
@@ -160,7 +162,7 @@ body {
   display: flex;
   flex-direction: row;
   gap: 40px;
-  align-items: center;
+  align-items: flex-start;
   max-width: 1000px;
   width: 90%;
   border: 1px solid var(--glass-border);
@@ -168,6 +170,7 @@ body {
 
 .panel-lateral {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -227,24 +230,30 @@ body {
   padding: 8px 14px;
   border-radius: 10px;
   width: fit-content;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 .palabra-lista.tachada {
   text-decoration: line-through;
   color: var(--text-secondary);
   opacity: 0.4;
-  transform: translateX(4px);
 }
 
 .panel-tablero {
   flex: 1.2;
+  min-width: 0;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 .contenedor-tablero-relativo {
   position: relative;
   border: 2px solid #e8e8ed;
   border-radius: 14px;
   background-color: #ffffff;
+  max-width: 100%;
+  overflow: hidden;
 }
 #capa-resaltadores {
   position: absolute;
@@ -257,32 +266,32 @@ body {
 }
 .trazo-marcador {
   position: absolute;
-  height: 34px;
-  border-radius: 17px;
-  transform-origin: 17px 17px;
   pointer-events: none;
   mix-blend-mode: multiply;
 }
 
-/* El Grid - Sin Gaps para que el cálculo Touch no falle por espacios vacíos */
+/* El Grid - Sin Gaps para que el cálculo Touch no falle por espacios vacíos.
+   El tamaño de celda se controla 100% desde --cell-size, calculado en JS
+   según el espacio real disponible (celular, tablet o escritorio). */
 #tablero-sopa {
   display: grid;
-  grid-template-columns: repeat(16, 38px);
-  grid-template-rows: repeat(16, 38px);
+  grid-template-columns: repeat(var(--columnas), var(--cell-size));
+  grid-template-rows: repeat(var(--filas), var(--cell-size));
   gap: 0px;
   background-color: transparent;
   position: relative;
   z-index: 2;
+  touch-action: none;
 }
 
 .celda {
-  width: 38px;
-  height: 38px;
+  width: var(--cell-size);
+  height: var(--cell-size);
   background-color: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: calc(var(--cell-size) * 0.44);
   font-weight: 600;
   color: var(--text-primary);
   cursor: pointer;
@@ -318,6 +327,7 @@ body {
   gap: 12px;
   width: 100%;
   margin-top: auto;
+  padding-top: 16px;
 }
 #btn-reiniciar,
 #btn-pista,
@@ -340,6 +350,46 @@ body {
   color: #ff3b30;
 }
 
+/* Botón flotante de música: visible en las dos pantallas */
+.btn-musica-flotante {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+.btn-musica-flotante:hover {
+  transform: scale(1.08);
+}
+.btn-musica-flotante.silenciada {
+  opacity: 0.55;
+}
+
+@media (max-width: 520px) {
+  .btn-musica-flotante {
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+  }
+}
+
 #contenedor-palabras::-webkit-scrollbar {
   width: 4px;
 }
@@ -348,3 +398,57 @@ body {
   border-radius: 10px;
 }
 
+/* ---------- RESPONSIVE ---------- */
+
+/* Tablets: el tablero pasa a ir arriba, la lista de palabras abajo,
+   y todo el ancho se aprovecha para que el tablero entre completo. */
+@media (max-width: 900px) {
+  body {
+    padding: 10px;
+    align-items: flex-start;
+  }
+  .contenedor-apple {
+    padding: 28px 20px;
+  }
+  .contenedor-principal {
+    flex-direction: column-reverse;
+    padding: 20px;
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 18px;
+  }
+  .panel-tablero {
+    justify-content: center;
+  }
+  .panel-lateral {
+    width: 100%;
+    align-self: stretch;
+  }
+  #contenedor-palabras {
+    max-height: 150px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 520px) {
+  .contenedor-apple h1 {
+    font-size: 1.9rem;
+  }
+  .contenedor-principal {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .panel-lateral h2 {
+    font-size: 1.4rem;
+  }
+  .botones-control button {
+    padding: 12px 10px;
+    font-size: 0.85rem;
+  }
+  #contenedor-palabras {
+    max-height: 110px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
