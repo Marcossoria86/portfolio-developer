@@ -2,11 +2,12 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Sopa de Letras - Apple Edition</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <button id="btn-musica" class="btn-musica-flotante" title="Música de fondo">🔊</button>
     <canvas
       id="lienzo-confeti"
       style="
@@ -54,6 +55,36 @@
           <h3>Diseño UI/UX</h3>
           <p>Interfaces, usabilidad y herramientas de diseño</p>
         </button>
+        <button class="tarjeta-categoria" data-tema="historia">
+          <div class="icono-cat">🏛️</div>
+          <h3>Historia</h3>
+          <p>Civilizaciones, imperios y grandes eventos</p>
+        </button>
+        <button class="tarjeta-categoria" data-tema="astronomia">
+          <div class="icono-cat">🔭</div>
+          <h3>Astronomía</h3>
+          <p>Planetas, estrellas y el universo</p>
+        </button>
+        <button class="tarjeta-categoria" data-tema="arte">
+          <div class="icono-cat">🎭</div>
+          <h3>Arte y Cultura</h3>
+          <p>Pintura, música, cine y literatura</p>
+        </button>
+        <button class="tarjeta-categoria" data-tema="geografia">
+          <div class="icono-cat">🌍</div>
+          <h3>Geografía</h3>
+          <p>Países, montañas, ríos y océanos</p>
+        </button>
+        <button class="tarjeta-categoria" data-tema="ciencia">
+          <div class="icono-cat">🧬</div>
+          <h3>Ciencia y Naturaleza</h3>
+          <p>Biología, física y el mundo natural</p>
+        </button>
+        <button class="tarjeta-categoria" data-tema="mitologia">
+          <div class="icono-cat">⚡</div>
+          <h3>Mitología</h3>
+          <p>Dioses, héroes y leyendas antiguas</p>
+        </button>
       </div>
       <div class="seccion-records">
         <h3>🏆 Mejores Tiempos</h3>
@@ -91,4 +122,5 @@
     <script src="script.js"></script>
   </body>
 </html>
+
 
