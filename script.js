@@ -89,6 +89,74 @@ const AudioJuego = {
   },
 };
 
+// --- MÚSICA DE FONDO AMBIENTAL (generada, sin archivos externos) ---
+// Un pad suave que va rotando entre acordes cálidos, con volumen bajo para
+// no tapar los efectos de clic/acierto. Se apaga/enciende con el botón
+// flotante de arriba a la derecha.
+const MusicaAmbiente = {
+  activo: false,
+  gainMaster: null,
+  temporizador: null,
+  indiceAcorde: 0,
+  // Progresión suave (Do mayor - La menor - Fa mayor - Sol mayor), en octava baja
+  acordes: [
+    [261.63, 329.63, 392.0], // C
+    [220.0, 261.63, 329.63], // Am
+    [174.61, 220.0, 261.63], // F
+    [196.0, 246.94, 293.66], // G
+  ],
+  init() {
+    AudioJuego.init();
+    if (!this.gainMaster && AudioJuego.ctx) {
+      this.gainMaster = AudioJuego.ctx.createGain();
+      this.gainMaster.gain.value = 0.045;
+      this.gainMaster.connect(AudioJuego.ctx.destination);
+    }
+  },
+  reproducirAcorde(frecs, duracion) {
+    const ctx = AudioJuego.ctx;
+    if (!ctx) return;
+    const inicio = ctx.currentTime;
+    frecs.forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = f;
+      osc.connect(gain);
+      gain.connect(this.gainMaster);
+      gain.gain.setValueAtTime(0, inicio);
+      gain.gain.linearRampToValueAtTime(0.9, inicio + 1.4 + i * 0.15);
+      gain.gain.linearRampToValueAtTime(0, inicio + duracion);
+      osc.start(inicio);
+      osc.stop(inicio + duracion + 0.1);
+    });
+  },
+  ciclo() {
+    if (!this.activo) return;
+    const acorde = this.acordes[this.indiceAcorde % this.acordes.length];
+    this.reproducirAcorde(acorde, 4.6);
+    this.indiceAcorde++;
+    this.temporizador = setTimeout(() => this.ciclo(), 4200);
+  },
+  play() {
+    this.init();
+    if (this.activo || !AudioJuego.ctx) return;
+    if (AudioJuego.ctx.state === "suspended") AudioJuego.ctx.resume();
+    this.activo = true;
+    this.ciclo();
+  },
+  stop() {
+    this.activo = false;
+    clearTimeout(this.temporizador);
+  },
+  toggle() {
+    if (this.activo) this.stop();
+    else this.play();
+    localStorage.setItem("sopa_musica_activa", this.activo ? "1" : "0");
+    return this.activo;
+  },
+};
+
 const categoriasJuego = {
   web: [
     "JAVASCRIPT", "FRONTEND", "BACKEND", "REACT", "ANGULAR", "NODEJS", "HTML",
@@ -728,3 +796,33 @@ btnPista.addEventListener("click", () => {
 btnVolver.addEventListener("click", volverAlMenu);
 window.onload = cargarRecordsMenu;
 
+// --- CONTROL DEL BOTÓN DE MÚSICA ---
+const btnMusica = document.getElementById("btn-musica");
+let prefMusica = localStorage.getItem("sopa_musica_activa");
+if (prefMusica === null) prefMusica = "1"; // por defecto: encendida
+
+function actualizarIconoMusica() {
+  btnMusica.textContent = MusicaAmbiente.activo ? "🔊" : "🔇";
+  btnMusica.classList.toggle("silenciada", !MusicaAmbiente.activo);
+  btnMusica.title = MusicaAmbiente.activo
+    ? "Apagar música de fondo"
+    : "Encender música de fondo";
+}
+actualizarIconoMusica();
+
+btnMusica.addEventListener("click", () => {
+  MusicaAmbiente.toggle();
+  actualizarIconoMusica();
+});
+
+// Los navegadores bloquean el audio hasta que hay un gesto del usuario
+// (click/tap), así que intentamos arrancar la música apenas toca algo,
+// solo si su preferencia guardada es "encendida".
+function intentarIniciarMusica() {
+  if (prefMusica === "1" && !MusicaAmbiente.activo) {
+    MusicaAmbiente.play();
+    actualizarIconoMusica();
+  }
+}
+document.addEventListener("click", intentarIniciarMusica, { once: true });
+document.addEventListener("touchend", intentarIniciarMusica, { once: true });
