@@ -2,123 +2,276 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Sopa de Letras - Apple Edition</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marcos Soria | Frontend Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="portfolio.css?v=3" />
   </head>
   <body>
-    <button id="btn-musica" class="btn-musica-flotante" title="Música de fondo">🔊</button>
-    <canvas
-      id="lienzo-confeti"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        pointer-events: none;
-        z-index: 999;
-      "
-    ></canvas>
-    <!-- Pantalla de Selección de Temas (Inspirada en Apple Arcade) -->
-    <div id="pantalla-inicio" class="contenedor-apple">
-      <h1>Sopa de Letras</h1>
-      <p class="subtitulo">Selecciona una categoría de juego</p>
-      <div class="grid-categorias">
-        <button class="tarjeta-categoria" data-tema="web">
-          <div class="icono-cat">🌐</div>
-          <h3>Desarrollo Web</h3>
-          <p>Frontend, Frameworks y navegadores</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="datos">
-          <div class="icono-cat">💾</div>
-          <h3>Bases de Datos</h3>
-          <p>SQL, almacenamiento y servidores</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="seguridad">
-          <div class="icono-cat">🔒</div>
-          <h3>Seguridad</h3>
-          <p>Cifrado, tokens y protocolos web</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="ia">
-          <div class="icono-cat">🤖</div>
-          <h3>Inteligencia Artificial</h3>
-          <p>Algoritmos, modelos y machine learning</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="cloud">
-          <div class="icono-cat">☁️</div>
-          <h3>Cloud &amp; DevOps</h3>
-          <p>Contenedores, despliegues e infraestructura</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="diseno">
-          <div class="icono-cat">🎨</div>
-          <h3>Diseño UI/UX</h3>
-          <p>Interfaces, usabilidad y herramientas de diseño</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="historia">
-          <div class="icono-cat">🏛️</div>
-          <h3>Historia</h3>
-          <p>Civilizaciones, imperios y grandes eventos</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="astronomia">
-          <div class="icono-cat">🔭</div>
-          <h3>Astronomía</h3>
-          <p>Planetas, estrellas y el universo</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="arte">
-          <div class="icono-cat">🎭</div>
-          <h3>Arte y Cultura</h3>
-          <p>Pintura, música, cine y literatura</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="geografia">
-          <div class="icono-cat">🌍</div>
-          <h3>Geografía</h3>
-          <p>Países, montañas, ríos y océanos</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="ciencia">
-          <div class="icono-cat">🧬</div>
-          <h3>Ciencia y Naturaleza</h3>
-          <p>Biología, física y el mundo natural</p>
-        </button>
-        <button class="tarjeta-categoria" data-tema="mitologia">
-          <div class="icono-cat">⚡</div>
-          <h3>Mitología</h3>
-          <p>Dioses, héroes y leyendas antiguas</p>
-        </button>
+    <nav class="navbar">
+      <div class="logo">MS<span>.</span></div>
+      <ul class="nav-links">
+        <li><a href="#about">Sobre mí</a></li>
+        <li><a href="#skills">Tecnologías</a></li>
+        <li><a href="#projects">Proyectos</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero" id="about">
+      <div class="hero-content">
+        <span class="badge">Disponible para trabajar</span>
+        <h1>
+          Desarrollo interfaces web <br /><span class="text-gradient"
+            >interactivas y eficientes</span
+          >
+        </h1>
+        <p class="hero-subtitle">
+          Hola, soy <strong>Marcos Soria</strong>. Desarrollador Frontend
+          enfocado en crear productos digitales fluidos, accesibles y con lógica
+          sólida en JavaScript puro.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">Ver proyectos</a>
+          <a href="#contact" class="btn btn-secondary">Hablemos</a>
+        </div>
       </div>
-      <div class="seccion-records">
-        <h3>🏆 Mejores Tiempos</h3>
-        <ul id="lista-records"></ul>
+    </header>
+
+    <section class="skills-section" id="skills">
+      <h2 class="section-title">Tecnologías & Habilidades</h2>
+      <div class="skills-container">
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-icon">🎨</div>
+            <h4>HTML5 & CSS3</h4>
+            <p>
+              Estructuras semánticas, maquetación adaptativa, Flexbox, CSS Grid
+              y Variables globales.
+            </p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">⚡</div>
+            <h4>JavaScript (ES6+)</h4>
+            <p>
+              Manipulación avanzada del DOM, control de eventos, programación
+              modular y lógica sin librerías.
+            </p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">📦</div>
+            <h4>Git & GitHub</h4>
+            <p>
+              Control de versiones, ramas, despliegues automáticos mediante
+              GitHub Pages y flujos de trabajo eficientes.
+            </p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-icon">⚛️</div>
+            <h4>React (En aprendizaje)</h4>
+            <p>
+              Creación de componentes interactivos, manejo de estados
+              funcionales y consumo de APIs REST.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="projects-section" id="projects">
+      <h2 class="section-title">Proyectos destacados</h2>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="project-image src-calc">🧮</div>
+          <div class="project-info">
+            <span class="project-tag">Proyecto Activo</span>
+            <h3>Calculadora Pro Avanzada</h3>
+            <p class="project-description">
+              Una herramienta web interactiva con cambio de tema, historial
+              dinámico reutilizable, conversores integrados y un parser
+              aritmético desarrollado de forma nativa.
+            </p>
+            <div class="project-tech">
+              <span>HTML5</span><span>CSS Variables</span><span>JS (ES6+)</span>
+            </div>
+            <div class="project-links">
+              <button id="open-calc-btn" class="btn-demo-link">
+                Probar Demo 🚀
+              </button>
+              <a
+                href="https://github.com/Marcossoria86/portfolio-developer/tree/main/calculadora"
+                target="_blank"
+                class="link-code"
+                >Ver Código 💻</a
+              >
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-image src-wordsearch">🧩</div>
+          <div class="project-info">
+            <span class="project-tag">Nuevo</span>
+            <h3>Sopa de Letras Tech</h3>
+            <p class="project-description">
+              Juego desarrollado completamente en JavaScript puro con selección
+              por arrastre (mouse y touch), cronómetro, récords locales y
+              animaciones con Canvas.
+            </p>
+            <div class="project-tech">
+              <span>HTML5</span><span>CSS3</span><span>JavaScript</span
+              ><span>Canvas</span>
+            </div>
+            <div class="project-links">
+              <button id="open-sopa-btn" class="btn-demo-link">
+                Probar Demo 🚀
+              </button>
+              <a
+                href="https://github.com/Marcossoria86/portfolio-developer/tree/main/sopa-letras"
+                target="_blank"
+                class="link-code"
+                >Ver Código 💻</a
+              >
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card future-card">
+          <div class="project-image src-future">📝</div>
+          <div class="project-info">
+            <span class="project-tag tag-future">Próximamente</span>
+            <h3>Gestor de Tareas Inteligente</h3>
+            <p class="project-description">
+              Aplicación de productividad enfocada en la priorización de
+              actividades mediante algoritmos de tiempo.
+            </p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>IndexedDB</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card future-card">
+          <div class="project-image src-future">☀️🌦️</div>
+          <div class="project-info">
+            <span class="project-tag tag-future">En Planificación</span>
+            <h3>App del Clima Austral</h3>
+            <p class="project-description">
+              Aplicación meteorológica interactiva que consumirá APIs globales
+              en tiempo real, con geolocalización automatizada y alertas
+              dinámicas.
+            </p>
+            <div class="project-tech">
+              <span>React</span><span>API REST</span><span>Tailwind</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card future-card">
+          <div class="project-image src-future">📊💵</div>
+          <div class="project-info">
+            <span class="project-tag tag-future">Idea Futura</span>
+            <h3>Simulador de Ahorro Pro</h3>
+            <p class="project-description">
+              Calculadora de interés compuesto y presupuestos mensuales con
+              proyecciones visuales dinámicas para analizar el crecimiento del
+              capital a corto y largo plazo.
+            </p>
+            <div class="project-tech">
+              <span>JavaScript</span><span>DOM Avanzado</span
+              ><span>CSS Grid</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card future-card">
+          <div class="project-image src-future">⏱️🍅</div>
+          <div class="project-info">
+            <span class="project-tag tag-future">Idea Futura</span>
+            <h3>Temporizador Pomodoro</h3>
+            <p class="project-description">
+              Herramienta de enfoque con ciclos configurables de trabajo y
+              descanso, notificaciones sonoras integradas y personalización de
+              interfaz según el estado actual.
+            </p>
+            <div class="project-tech">
+              <span>HTML5 Audio</span><span>Event Loops</span
+              ><span>CSS Themes</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer class="contact-section" id="contact">
+      <div class="contact-container">
+        <h2>¿Tienes un proyecto en mente?</h2>
+        <form
+          action="https://formsubmit.co/molotoria@gmail.com"
+          method="POST"
+          id="portfolio-form"
+          class="contact-form"
+        >
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="form-group">
+            <input type="text" name="name" placeholder="Tu Nombre" required />
+          </div>
+          <div class="form-group">
+            <input type="email" name="email" placeholder="Tu Correo" required />
+          </div>
+          <div class="form-group">
+            <textarea
+              name="message"
+              rows="4"
+              placeholder="Tu propuesta..."
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit">
+            Enviar Mensaje ✉️
+          </button>
+        </form>
+
+        <div class="social-links">
+          <a
+            href="https://www.linkedin.com/in/marcos-soria-74069b118/"
+            target="_blank"
+            >LinkedIn</a
+          >
+          <a href="https://github.com/Marcossoria86" target="_blank">GitHub</a>
+        </div>
+        <p class="footer-credits">
+          © 2026 Marcos Soria. Diseñado y programado con código limpio.
+        </p>
+      </div>
+    </footer>
+
+    <div id="calc-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Calculadora Pro</h3>
+          <button id="close-calc-btn" class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <iframe src="calculadora/index.html" class="modal-iframe"></iframe>
+        </div>
       </div>
     </div>
-    <!-- Pantalla del Juego Real -->
-    <div id="pantalla-juego" class="contenedor-principal" style="display: none">
-      <div class="panel-lateral">
-        <h2 id="titulo-categoria">Sopa de Letras</h2>
-        <div class="seccion-estado">
-          <div class="cronometro">
-            Tiempo: <span id="tiempo-reloj">00:00</span>
-          </div>
-          <div class="contador-texto">
-            Progreso: <span id="num-progreso">0/0</span>
-          </div>
-          <div class="barra-contenedor">
-            <div id="barra-progreso"></div>
-          </div>
+
+    <div id="sopa-modal" class="modal-overlay">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>Sopa de Letras Tech</h3>
+          <button id="close-sopa-btn" class="modal-close">&times;</button>
         </div>
-        <div id="contenedor-palabras"></div>
-        <div class="botones-control">
-          <button id="btn-pista" class="btn-secundario">💡 Pista</button>
-          <button id="btn-volver" class="btn-rojo">Menu</button>
-        </div>
-      </div>
-      <div class="panel-tablero">
-        <div class="contenedor-tablero-relativo">
-          <div id="capa-resaltadores"></div>
-          <div id="tablero-sopa"></div>
+        <div class="modal-body">
+          <iframe src="sopa-letras/index.html" class="modal-iframe"></iframe>
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+
+    <script src="portfolio.js"></script>
   </body>
 </html>
+
