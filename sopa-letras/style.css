@@ -58,17 +58,26 @@ body {
   border: 1px solid var(--glass-border);
 }
 
+.cabecera-inicio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .contenedor-apple h1 {
   font-size: 2.4rem;
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.5px;
+  text-align: left;
 }
 .subtitulo {
   font-size: 1.1rem;
   color: var(--text-secondary);
   margin-top: 6px;
   margin-bottom: 32px;
+  text-align: left;
 }
 
 .grid-categorias {
@@ -126,9 +135,27 @@ body {
   border-color: rgba(0, 113, 227, 0.3);
 }
 
+.anchor-flotante {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: 38px;
+}
+
+.icono-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
 .icono-cat {
-  font-size: 2.2rem;
   margin-bottom: 12px;
+  color: var(--accent-blue);
+  display: flex;
+  justify-content: center;
+}
+.icono-cat svg {
+  width: 34px;
+  height: 34px;
 }
 .tarjeta-categoria h3 {
   font-size: 1.1rem;
@@ -196,32 +223,61 @@ body {
   align-items: flex-start;
   align-self: stretch;
 }
-.panel-lateral h2 {
-  font-size: 1.8rem;
+
+.cabecera-juego {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+.titulo-bloque {
+  min-width: 0;
+}
+.marca-juego {
+  display: block;
+  font-size: 0.75rem;
   font-weight: 700;
-  margin: 0 0 16px 0;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 2px;
+}
+.panel-lateral h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
   letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
 }
 
 .seccion-estado {
   width: 100%;
   margin-bottom: 20px;
   background-color: var(--bg-apple);
-  padding: 14px;
+  padding: 10px 14px;
   border-radius: 14px;
   box-sizing: border-box;
 }
+.fila-estado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 .cronometro,
 .contador-texto {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #424245;
-  margin-bottom: 6px;
+  color: var(--text-primary);
+  white-space: nowrap;
 }
 .barra-contenedor {
   width: 100%;
   height: 6px;
-  background-color: #e8e8ed;
+  background-color: var(--board-border);
   border-radius: 3px;
   overflow: hidden;
   margin-top: 8px;
@@ -245,7 +301,7 @@ body {
 .palabra-lista {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #424245;
+  color: var(--text-primary);
   background-color: var(--bg-apple);
   padding: 8px 14px;
   border-radius: 10px;
@@ -370,25 +426,21 @@ body {
   color: #ff3b30;
 }
 
-/* Barra flotante: música + modo oscuro, visible en todas las pantallas */
+/* Barra de música + modo oscuro: vive dentro del header de cada pantalla
+   (se mueve de contenedor vía JS), así nunca queda flotando encima del
+   tablero ni tapa letras. */
 .barra-flotante {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  z-index: 1000;
   display: flex;
-  gap: 10px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 .btn-flotante {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   border: 1px solid var(--glass-border);
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  font-size: 1.2rem;
+  background-color: var(--bg-apple);
+  font-size: 1.05rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -396,6 +448,12 @@ body {
   transition:
     transform 0.2s ease,
     opacity 0.2s ease;
+  color: var(--text-primary);
+  padding: 0;
+}
+.btn-flotante svg {
+  width: 18px;
+  height: 18px;
 }
 .btn-flotante:hover {
   transform: scale(1.08);
@@ -405,15 +463,13 @@ body {
 }
 
 @media (max-width: 520px) {
-  .barra-flotante {
-    top: 10px;
-    right: 10px;
-    gap: 8px;
-  }
   .btn-flotante {
-    width: 38px;
-    height: 38px;
-    font-size: 1rem;
+    width: 34px;
+    height: 34px;
+  }
+  .btn-flotante svg {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -590,7 +646,7 @@ body {
     align-self: stretch;
   }
   #contenedor-palabras {
-    max-height: 150px;
+    max-height: 220px;
   }
 }
 

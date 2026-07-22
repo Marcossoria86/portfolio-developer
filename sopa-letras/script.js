@@ -89,74 +89,6 @@ const AudioJuego = {
   },
 };
 
-// --- MÚSICA DE FONDO AMBIENTAL (generada, sin archivos externos) ---
-// Un pad suave que va rotando entre acordes cálidos, con volumen bajo para
-// no tapar los efectos de clic/acierto. Se apaga/enciende con el botón
-// flotante de arriba a la derecha.
-const MusicaAmbiente = {
-  activo: false,
-  gainMaster: null,
-  temporizador: null,
-  indiceAcorde: 0,
-  // Progresión suave (Do mayor - La menor - Fa mayor - Sol mayor), en octava baja
-  acordes: [
-    [261.63, 329.63, 392.0], // C
-    [220.0, 261.63, 329.63], // Am
-    [174.61, 220.0, 261.63], // F
-    [196.0, 246.94, 293.66], // G
-  ],
-  init() {
-    AudioJuego.init();
-    if (!this.gainMaster && AudioJuego.ctx) {
-      this.gainMaster = AudioJuego.ctx.createGain();
-      this.gainMaster.gain.value = 0.045;
-      this.gainMaster.connect(AudioJuego.ctx.destination);
-    }
-  },
-  reproducirAcorde(frecs, duracion) {
-    const ctx = AudioJuego.ctx;
-    if (!ctx) return;
-    const inicio = ctx.currentTime;
-    frecs.forEach((f, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = f;
-      osc.connect(gain);
-      gain.connect(this.gainMaster);
-      gain.gain.setValueAtTime(0, inicio);
-      gain.gain.linearRampToValueAtTime(0.9, inicio + 1.4 + i * 0.15);
-      gain.gain.linearRampToValueAtTime(0, inicio + duracion);
-      osc.start(inicio);
-      osc.stop(inicio + duracion + 0.1);
-    });
-  },
-  ciclo() {
-    if (!this.activo) return;
-    const acorde = this.acordes[this.indiceAcorde % this.acordes.length];
-    this.reproducirAcorde(acorde, 4.6);
-    this.indiceAcorde++;
-    this.temporizador = setTimeout(() => this.ciclo(), 4200);
-  },
-  play() {
-    this.init();
-    if (this.activo || !AudioJuego.ctx) return;
-    if (AudioJuego.ctx.state === "suspended") AudioJuego.ctx.resume();
-    this.activo = true;
-    this.ciclo();
-  },
-  stop() {
-    this.activo = false;
-    clearTimeout(this.temporizador);
-  },
-  toggle() {
-    if (this.activo) this.stop();
-    else this.play();
-    localStorage.setItem("sopa_musica_activa", this.activo ? "1" : "0");
-    return this.activo;
-  },
-};
-
 const categoriasJuego = {
   web: [
     "JAVASCRIPT", "FRONTEND", "BACKEND", "REACT", "ANGULAR", "NODEJS", "HTML",
@@ -332,7 +264,17 @@ function lanzarJuegoConCategoria(catTxt, listaPalabras) {
   document.getElementById("pantalla-inicio").style.display = "none";
   document.getElementById("pantalla-editor").style.display = "none";
   document.getElementById("pantalla-juego").style.display = "flex";
+  moverBarraFlotante("anchor-juego");
   inicializarJuego();
+}
+
+// La barra de botones (música / modo oscuro) es un único elemento del DOM
+// que se muda entre pantallas: así nunca queda flotando encima del
+// tablero ni tapando texto, siempre vive dentro del header que corresponda.
+function moverBarraFlotante(idAnchor) {
+  const barra = document.getElementById("barra-flotante");
+  const destino = document.getElementById(idAnchor);
+  if (barra && destino) destino.appendChild(barra);
 }
 
 // Punto de entrada único: busca la categoría entre las fijas y las
@@ -779,7 +721,9 @@ function cargarRecordsMenu() {
 function volverAlMenu() {
   clearInterval(intervaloTiempo);
   document.getElementById("pantalla-juego").style.display = "none";
+  document.getElementById("pantalla-editor").style.display = "none";
   document.getElementById("pantalla-inicio").style.display = "block";
+  moverBarraFlotante("anchor-inicio");
   cargarRecordsMenu();
 }
 
@@ -805,44 +749,24 @@ btnPista.addEventListener("click", () => {
 });
 
 btnVolver.addEventListener("click", volverAlMenu);
-window.onload = cargarRecordsMenu;
+window.onload = () => {
+  cargarRecordsMenu();
+  moverBarraFlotante("anchor-inicio");
+};
 
-// --- CONTROL DEL BOTÓN DE MÚSICA ---
-const btnMusica = document.getElementById("btn-musica");
-let prefMusica = localStorage.getItem("sopa_musica_activa");
-if (prefMusica === null) prefMusica = "1"; // por defecto: encendida
-
-function actualizarIconoMusica() {
-  btnMusica.textContent = MusicaAmbiente.activo ? "🔊" : "🔇";
-  btnMusica.classList.toggle("silenciada", !MusicaAmbiente.activo);
-  btnMusica.title = MusicaAmbiente.activo
-    ? "Apagar música de fondo"
-    : "Encender música de fondo";
-}
-actualizarIconoMusica();
-
-btnMusica.addEventListener("click", () => {
-  MusicaAmbiente.toggle();
-  actualizarIconoMusica();
-});
-
-// Los navegadores bloquean el audio hasta que hay un gesto del usuario
-// (click/tap), así que intentamos arrancar la música apenas toca algo,
-// solo si su preferencia guardada es "encendida".
-function intentarIniciarMusica() {
-  if (prefMusica === "1" && !MusicaAmbiente.activo) {
-    MusicaAmbiente.play();
-    actualizarIconoMusica();
-  }
-}
-document.addEventListener("click", intentarIniciarMusica, { once: true });
-document.addEventListener("touchend", intentarIniciarMusica, { once: true });
+// --- ÍCONOS SVG DIBUJADOS A MANO (nada de emojis en los botones) ---
+const ICONO_LUNA =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a7 7 0 0 0 10.7 10.7z"/></svg>';
+const ICONO_SOL =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.3M12 19.2v2.3M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.5 12h2.3M19.2 12h2.3M4.4 19.6L6 18M18 6l1.6-1.6"/></svg>';
+const ICONO_ETIQUETA =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M11.5 3.5H5a1.5 1.5 0 0 0-1.5 1.5v6.5c0 .4.16.78.44 1.06l8.5 8.5a1.5 1.5 0 0 0 2.12 0l6.5-6.5a1.5 1.5 0 0 0 0-2.12l-8.5-8.5a1.5 1.5 0 0 0-1.06-.44z"/><circle cx="8" cy="8" r="1.3"/></svg>';
 
 // --- MODO OSCURO ---
 const btnOscuro = document.getElementById("btn-oscuro");
 function aplicarIconoOscuro() {
   const activo = document.documentElement.dataset.modo === "oscuro";
-  btnOscuro.textContent = activo ? "☀️" : "🌙";
+  btnOscuro.innerHTML = activo ? ICONO_SOL : ICONO_LUNA;
   btnOscuro.title = activo ? "Modo claro" : "Modo oscuro";
 }
 aplicarIconoOscuro();
@@ -908,7 +832,7 @@ function renderizarCategoriasPersonalizadas() {
         <button type="button" class="accion-mini" data-accion="editar" title="Editar">✎</button>
         <button type="button" class="accion-mini" data-accion="borrar" title="Borrar">✕</button>
       </div>
-      <div class="icono-cat">${cat.icono || "📝"}</div>
+      <div class="icono-cat">${cat.icono ? `<span class="icono-emoji">${cat.icono}</span>` : ICONO_ETIQUETA}</div>
       <h3>${cat.nombre}</h3>
       <p>${cat.palabras.length} palabras personalizadas</p>
     `;
@@ -954,11 +878,13 @@ function abrirEditor(idExistente) {
   }
   pantallaInicio.style.display = "none";
   pantallaEditor.style.display = "block";
+  moverBarraFlotante("anchor-editor");
 }
 
 function cerrarEditor() {
   pantallaEditor.style.display = "none";
   pantallaInicio.style.display = "block";
+  moverBarraFlotante("anchor-inicio");
 }
 
 document
