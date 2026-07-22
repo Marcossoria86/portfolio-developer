@@ -1,0 +1,352 @@
+/* --- CONFIGURACIÓN GLOBAL Y VARIABLES --- */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-main: #1a1d20;
+  --text-muted: #5f676d;
+  --accent: #4f46e5;
+  --accent-light: #e0e7ff;
+  --border-color: #e9ecef;
+  --max-width: 1100px;
+  --radius: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0b0f19;
+    --bg-secondary: #151b2c;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --border-color: #222c42;
+    --accent-light: rgba(79, 70, 229, 0.15);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* --- NAVBAR & HERO --- */
+.navbar {
+  width: 100%;
+  background-color: rgba(15, 23, 42, 0.9);
+  padding: 15px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  color: white;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+}
+.logo span {
+  color: var(--accent);
+}
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 80px 20px;
+  text-align: left;
+}
+.badge {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+.text-gradient {
+  background: linear-gradient(45deg, var(--accent), #ec4899);
+  background-clip: text; /* <-- AGREGA ESTA LÍNEA (La propiedad estándar que te pide VS Code) */
+  -webkit-background-clip: text; /* (El prefijo para compatibilidad con Chrome/Safari) */
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* (Respaldo por si un navegador viejo no soporta el degradado) */
+}
+.hero-subtitle {
+  color: var(--text-muted);
+  font-size: 18px;
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+  text-align: center;
+}
+.btn:active {
+  transform: scale(0.96);
+}
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+}
+.btn-secondary {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+/* --- GRID DE SKILLS Y PROYECTOS --- */
+.skills-section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.skill-card {
+  background-color: var(--bg-secondary);
+  padding: 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+}
+
+.projects-section {
+  background-color: var(--bg-secondary);
+  padding: 60px 20px;
+}
+.section-title {
+  max-width: var(--max-width);
+  margin: 0 auto 30px;
+  font-size: 28px;
+  font-weight: 800;
+}
+.projects-grid {
+  display: grid;
+  /* Fuerza exactamente 3 columnas iguales en pantallas de escritorio */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* Adaptación fluida para pantallas medianas (Tablets) */
+@media (max-width: 992px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr); /* Pasa a 2 por fila */
+  }
+}
+
+/* Adaptación fluida para pantallas chicas (Celulares) */
+@media (max-width: 600px) {
+  .projects-grid {
+    grid-template-columns: 1fr; /* 1 sola tarjeta por fila en vertical */
+  }
+}
+.project-card {
+  background-color: var(--bg-primary);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+}
+.project-image {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+.src-calc {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+.src-wordsearch {
+  background: linear-gradient(135deg, #06b6d4, #2563eb);
+}
+.src-future {
+  background: #222;
+  color: #555;
+}
+.project-info {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.project-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.project-description {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+.project-tech span {
+  font-size: 11px;
+  background: var(--bg-secondary);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-right: 5px;
+}
+.project-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Botones Dinámicos de Link para evitar fallos de colisión */
+.btn-demo-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  display: inline-block;
+}
+
+/* --- CONTACTO & SOCIAL --- */
+.contact-section {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: center;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: inherit;
+  outline: none;
+}
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+  font-weight: 600;
+}
+.footer-credits {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 20px;
+}
+
+/* --- MODALES GENERALES --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.modal-overlay.modal-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.modal-content {
+  background: var(--bg-primary);
+  width: 90%;
+  max-width: 400px;
+  height: 80vh;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.modal-large {
+  max-width: 1100px;
+  width: 95%;
+  height: 92vh;
+}
+.modal-header {
+  padding: 15px;
+  background: var(--bg-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+.modal-body {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+.modal-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
