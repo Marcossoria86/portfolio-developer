@@ -89,170 +89,200 @@ const AudioJuego = {
   },
 };
 
+// --- MÚSICA DE FONDO AMBIENTAL (generada, sin archivos externos) ---
+// Un pad suave que va rotando entre acordes cálidos, con volumen bajo para
+// no tapar los efectos de clic/acierto. Se apaga/enciende con el botón
+// flotante de arriba a la derecha.
+const MusicaAmbiente = {
+  activo: false,
+  gainMaster: null,
+  temporizador: null,
+  indiceAcorde: 0,
+  // Progresión suave (Do mayor - La menor - Fa mayor - Sol mayor), en octava baja
+  acordes: [
+    [261.63, 329.63, 392.0], // C
+    [220.0, 261.63, 329.63], // Am
+    [174.61, 220.0, 261.63], // F
+    [196.0, 246.94, 293.66], // G
+  ],
+  init() {
+    AudioJuego.init();
+    if (!this.gainMaster && AudioJuego.ctx) {
+      this.gainMaster = AudioJuego.ctx.createGain();
+      this.gainMaster.gain.value = 0.045;
+      this.gainMaster.connect(AudioJuego.ctx.destination);
+    }
+  },
+  reproducirAcorde(frecs, duracion) {
+    const ctx = AudioJuego.ctx;
+    if (!ctx) return;
+    const inicio = ctx.currentTime;
+    frecs.forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = f;
+      osc.connect(gain);
+      gain.connect(this.gainMaster);
+      gain.gain.setValueAtTime(0, inicio);
+      gain.gain.linearRampToValueAtTime(0.9, inicio + 1.4 + i * 0.15);
+      gain.gain.linearRampToValueAtTime(0, inicio + duracion);
+      osc.start(inicio);
+      osc.stop(inicio + duracion + 0.1);
+    });
+  },
+  ciclo() {
+    if (!this.activo) return;
+    const acorde = this.acordes[this.indiceAcorde % this.acordes.length];
+    this.reproducirAcorde(acorde, 4.6);
+    this.indiceAcorde++;
+    this.temporizador = setTimeout(() => this.ciclo(), 4200);
+  },
+  play() {
+    this.init();
+    if (this.activo || !AudioJuego.ctx) return;
+    if (AudioJuego.ctx.state === "suspended") AudioJuego.ctx.resume();
+    this.activo = true;
+    this.ciclo();
+  },
+  stop() {
+    this.activo = false;
+    clearTimeout(this.temporizador);
+  },
+  toggle() {
+    if (this.activo) this.stop();
+    else this.play();
+    localStorage.setItem("sopa_musica_activa", this.activo ? "1" : "0");
+    return this.activo;
+  },
+};
+
 const categoriasJuego = {
   web: [
-    "JAVASCRIPT",
-    "FRONTEND",
-    "BACKEND",
-    "REACT",
-    "ANGULAR",
-    "NODEJS",
-    "HTML",
-    "CSS",
-    "API",
-    "JSON",
-    "DOM",
-    "SERVER",
-    "DATABASE",
-    "HOSTING",
-    "FRAMEWORK",
-    "DEPLOY",
-    "GIT",
-    "GITHUB",
-    "URL",
-    "BROWSER",
-    "COOKIE",
-    "SCRIPT",
-    "FLEXBOX",
-    "GRID",
-    "RESPONSIVE",
+    "JAVASCRIPT", "FRONTEND", "BACKEND", "REACT", "ANGULAR", "NODEJS", "HTML",
+    "CSS", "API", "JSON", "DOM", "SERVER", "DATABASE", "HOSTING", "FRAMEWORK",
+    "DEPLOY", "GIT", "GITHUB", "URL", "BROWSER", "COOKIE", "SCRIPT", "FLEXBOX",
+    "GRID", "RESPONSIVE",
+    "TYPESCRIPT", "WEBPACK", "VUEJS", "SASS", "BOOTSTRAP", "ROUTING",
+    "COMPONENTE", "RENDER", "NAVEGADOR", "LOCALSTORAGE", "FETCH", "ASYNC",
+    "PROMESA", "MODULO", "COMPILADOR",
   ],
   datos: [
-    "MYSQL",
-    "POSTGRES",
-    "MONGODB",
-    "ORACLE",
-    "QUERY",
-    "INDEX",
-    "SCHEMA",
-    "BACKUP",
-    "TABLE",
-    "COLUMN",
-    "KEY",
-    "JOIN",
-    "SELECT",
-    "INSERT",
-    "UPDATE",
-    "DELETE",
-    "DATABASE",
-    "CLUSTER",
-    "REDIS",
-    "SQLITE",
-    "PROCEDURE",
-    "TRIGGER",
-    "NOSQL",
-    "BIGDATA",
-    "STORAGE",
+    "MYSQL", "POSTGRES", "MONGODB", "ORACLE", "QUERY", "INDEX", "SCHEMA",
+    "BACKUP", "TABLE", "COLUMN", "KEY", "JOIN", "SELECT", "INSERT", "UPDATE",
+    "DELETE", "DATABASE", "CLUSTER", "REDIS", "SQLITE", "PROCEDURE",
+    "TRIGGER", "NOSQL", "BIGDATA", "STORAGE",
+    "CACHE", "REPLICA", "SHARDING", "NORMALIZACION", "TRANSACCION",
+    "CONSULTA", "VISTA", "MODELO", "RELACIONAL", "PARTICION", "LATENCIA",
+    "ESCALABILIDAD", "MIGRACION", "RESPALDO", "SENTENCIA",
   ],
   seguridad: [
-    "CIPHER",
-    "TOKEN",
-    "FIREWALL",
-    "MALWARE",
-    "PHISHING",
-    "HTTPS",
-    "SSL",
-    "CRYPTO",
-    "HASH",
-    "PASSWORD",
-    "AUTH",
-    "DECRYPT",
-    "ENCRYPT",
-    "PROXY",
-    "HACKER",
-    "COOKIES",
-    "ROUTER",
-    "VPN",
-    "SALTING",
-    "CAPTCHA",
-    "JWT",
-    "SECURITY",
-    "EXPLOIT",
-    "CYBER",
-    "BACKDOOR",
+    "CIPHER", "TOKEN", "FIREWALL", "MALWARE", "PHISHING", "HTTPS", "SSL",
+    "CRYPTO", "HASH", "PASSWORD", "AUTH", "DECRYPT", "ENCRYPT", "PROXY",
+    "HACKER", "COOKIES", "ROUTER", "VPN", "SALTING", "CAPTCHA", "JWT",
+    "SECURITY", "EXPLOIT", "CYBER", "BACKDOOR",
+    "RANSOMWARE", "KEYLOGGER", "SPYWARE", "INTRUSION", "VULNERABILIDAD",
+    "PENTEST", "BIOMETRIA", "ANTIVIRUS", "INCOGNITO", "SANDBOX",
+    "CERTIFICADO", "AUTENTICACION", "PROTOCOLO", "INGENIERIA", "SPOOFING",
   ],
   ia: [
-    "ALGORITMO",
-    "NEURONAL",
-    "DATASET",
-    "MODELO",
-    "PYTHON",
-    "TENSORFLOW",
-    "PYTORCH",
-    "CHATBOT",
-    "PROMPT",
-    "INFERENCIA",
-    "CLASIFICADOR",
-    "REGRESION",
-    "CLUSTERING",
-    "OVERFITTING",
-    "GRADIENTE",
-    "EMBEDDING",
-    "TRANSFORMER",
-    "TOKEN",
-    "VISION",
-    "NEURONA",
-    "ENTRENAMIENTO",
-    "ROBOTICA",
-    "AUTOMATIZACION",
+    "ALGORITMO", "NEURONAL", "DATASET", "MODELO", "PYTHON", "TENSORFLOW",
+    "PYTORCH", "CHATBOT", "PROMPT", "INFERENCIA", "CLASIFICADOR",
+    "REGRESION", "CLUSTERING", "OVERFITTING", "GRADIENTE", "EMBEDDING",
+    "TRANSFORMER", "TOKEN", "VISION", "NEURONA", "ENTRENAMIENTO",
+    "ROBOTICA", "AUTOMATIZACION",
+    "REDES", "PERCEPTRON", "RECURRENTE", "SUPERVISADO", "APRENDIZAJE",
+    "PREDICCION", "GENERATIVA", "DEEPLEARNING", "CHATGPT", "BIAS",
+    "FEATURE", "ETIQUETA", "PRECISION",
   ],
   cloud: [
-    "DOCKER",
-    "KUBERNETES",
-    "CONTAINER",
-    "PIPELINE",
-    "JENKINS",
-    "TERRAFORM",
-    "AWS",
-    "AZURE",
-    "SERVERLESS",
-    "MICROSERVICIO",
-    "DEVOPS",
-    "CICD",
-    "NUBE",
-    "ESCALABILIDAD",
-    "LOADBALANCER",
-    "MONITOREO",
-    "LATENCIA",
-    "VIRTUALIZACION",
-    "ORQUESTACION",
-    "BACKUP",
-    "CLUSTER",
-    "NODO",
-    "DEPLOYMENT",
-    "INFRAESTRUCTURA",
+    "DOCKER", "KUBERNETES", "CONTAINER", "PIPELINE", "JENKINS", "TERRAFORM",
+    "AWS", "AZURE", "SERVERLESS", "MICROSERVICIO", "DEVOPS", "CICD", "NUBE",
+    "ESCALABILIDAD", "LOADBALANCER", "MONITOREO", "LATENCIA",
+    "VIRTUALIZACION", "ORQUESTACION", "BACKUP", "CLUSTER", "NODO",
+    "DEPLOYMENT", "INFRAESTRUCTURA",
+    "HELM", "ANSIBLE", "VAGRANT", "GITOPS", "OBSERVABILIDAD", "TOLERANCIA",
+    "REPLICACION", "ESCALADO", "REGISTRO", "IMAGEN", "YAML", "SECRETO",
+    "NAMESPACE", "HIBRIDA",
   ],
   diseno: [
-    "WIREFRAME",
-    "PROTOTIPO",
-    "USABILIDAD",
-    "TIPOGRAFIA",
-    "PALETA",
-    "FIGMA",
-    "LAYOUT",
-    "RESPONSIVE",
-    "ACCESIBILIDAD",
-    "INTERFAZ",
-    "EXPERIENCIA",
-    "COMPONENTE",
-    "GRILLA",
-    "CONTRASTE",
-    "JERARQUIA",
-    "MOCKUP",
-    "ICONOGRAFIA",
-    "BRANDING",
-    "MINIMALISMO",
-    "INTERACCION",
-    "NAVEGACION",
-    "COLORIMETRIA",
-    "ESPACIADO",
+    "WIREFRAME", "PROTOTIPO", "USABILIDAD", "TIPOGRAFIA", "PALETA", "FIGMA",
+    "LAYOUT", "RESPONSIVE", "ACCESIBILIDAD", "INTERFAZ", "EXPERIENCIA",
+    "COMPONENTE", "GRILLA", "CONTRASTE", "JERARQUIA", "MOCKUP",
+    "ICONOGRAFIA", "BRANDING", "MINIMALISMO", "INTERACCION", "NAVEGACION",
+    "COLORIMETRIA", "ESPACIADO",
+    "MOODBOARD", "SKETCH", "TENDENCIA", "ESTILO", "PLANTILLA", "BREAKPOINT",
+    "VIEWPORT", "PIXEL", "VECTORIAL", "ANIMACION", "TRANSICION", "USUARIO",
+    "PERSONA", "CONSISTENCIA",
   ],
+  historia: [
+    "EGIPTO", "ROMA", "GRECIA", "IMPERIO", "GUERRA", "REVOLUCION",
+    "CIVILIZACION", "FARAON", "PIRAMIDE", "VIKINGO", "CONQUISTA", "COLONIA",
+    "MONARQUIA", "REPUBLICA", "INDEPENDENCIA", "RENACIMIENTO",
+    "ARQUEOLOGIA", "GLADIADOR", "CASTILLO", "DINASTIA", "MEDIEVAL",
+    "ANTIGUEDAD", "ESCLAVITUD", "TRATADO", "BATALLA", "EJERCITO",
+    "MONUMENTO", "MOMIA", "JEROGLIFICO", "ESPARTA", "ATENAS", "BIZANTINO",
+    "FEUDALISMO", "CRUZADAS", "EMPERADOR",
+  ],
+  astronomia: [
+    "GALAXIA", "PLANETA", "ESTRELLA", "COMETA", "ASTEROIDE", "NEBULOSA",
+    "SATELITE", "TELESCOPIO", "ORBITA", "GRAVEDAD", "UNIVERSO", "ECLIPSE",
+    "METEORITO", "SUPERNOVA", "MARTE", "VENUS", "JUPITER", "SATURNO",
+    "MERCURIO", "URANO", "NEPTUNO", "PLUTON", "LUNA", "ASTRONAUTA",
+    "COHETE", "CONSTELACION", "ROTACION", "TRASLACION", "ATMOSFERA",
+    "CRATER", "ASTRONOMO", "OBSERVATORIO",
+  ],
+  arte: [
+    "PINTURA", "ESCULTURA", "MUSICA", "LITERATURA", "CINE", "TEATRO",
+    "POESIA", "NOVELA", "MELODIA", "ARMONIA", "ORQUESTA", "SINFONIA",
+    "PINTOR", "ESCRITOR", "ACTOR", "DIRECTOR", "GUION", "RETRATO", "MURAL",
+    "FRESCO", "BALLET", "OPERA", "JAZZ", "FOLKLORE", "PATRIMONIO", "MUSEO",
+    "GALERIA", "EXPOSICION", "COMPOSITOR", "DRAMATURGO", "ACUARELA",
+  ],
+  geografia: [
+    "CONTINENTE", "OCEANO", "CORDILLERA", "RIO", "DESIERTO", "VOLCAN",
+    "ISLA", "PENINSULA", "GLACIAR", "SABANA", "SELVA", "BOSQUE", "LAGO",
+    "VALLE", "METEOROLOGIA", "CLIMA", "LATITUD", "LONGITUD", "ECUADOR",
+    "HEMISFERIO", "CAPITAL", "FRONTERA", "POBLACION", "ARCHIPIELAGO",
+    "ATLAS", "CARTOGRAFIA", "TERRITORIO", "PAISAJE", "ALTIPLANO", "ESTEPA",
+    "TUNDRA",
+  ],
+  ciencia: [
+    "BIOLOGIA", "FISICA", "QUIMICA", "CELULA", "GENETICA", "EVOLUCION",
+    "ECOSISTEMA", "FOTOSINTESIS", "MOLECULA", "ATOMO", "ELEMENTO",
+    "ENERGIA", "MAGNETISMO", "ELECTRICIDAD", "BACTERIA", "VIRUS",
+    "MAMIFERO", "REPTIL", "ANFIBIO", "INVERTEBRADO", "HABITAT",
+    "BIODIVERSIDAD", "OXIGENO", "HIDROGENO", "PROTEINA", "ENZIMA",
+    "CROMOSOMA", "METABOLISMO", "ORGANISMO",
+  ],
+  mitologia: [
+    "ZEUS", "HERCULES", "ATENEA", "POSEIDON", "HADES", "APOLO", "ARTEMISA",
+    "AFRODITA", "ARES", "HERMES", "DIONISO", "OLIMPO", "TITAN", "CICLOPE",
+    "MINOTAURO", "ESFINGE", "PEGASO", "ODISEA", "TROYA", "MEDUSA",
+    "CENTAURO", "ORACULO", "NINFA", "SIRENA", "DRAGON", "VALHALLA", "ODIN",
+    "THOR", "LOKI", "MITOLOGIA",
+  ],
+};
+
+const nombresCategorias = {
+  web: "Desarrollo Web",
+  datos: "Bases de Datos",
+  seguridad: "Seguridad",
+  ia: "Inteligencia Artificial",
+  cloud: "Cloud & DevOps",
+  diseno: "Diseño UI/UX",
+  historia: "Historia",
+  astronomia: "Astronomía",
+  arte: "Arte y Cultura",
+  geografia: "Geografía",
+  ciencia: "Ciencia y Naturaleza",
+  mitologia: "Mitología",
 };
 
 let bancoPalabras = [];
 let palabrasOrdenadas = [];
-const filas = 16,
-  columnas = 16;
+const filas = 18,
+  columnas = 18;
 let tablero = [],
   palabrasEnTablero = [],
   palabrasEncontradas = [],
@@ -262,6 +292,10 @@ let seleccionando = false,
   celdasSeleccionadas = [],
   segundos = 0,
   intervaloTiempo = null;
+
+// Guardamos cada trazo dibujado (coordenadas de celda, no píxeles) para
+// poder redibujarlos cuando cambia el tamaño de celda (resize / rotación).
+let marcadoresData = [];
 
 const coloresPastel = [
   "rgba(52,211,153,0.4)",
@@ -277,11 +311,18 @@ const coloresPastel = [
 const tableroDiv = document.getElementById("tablero-sopa");
 const capaResaltadores = document.getElementById("capa-resaltadores");
 const contenedorPalabras = document.getElementById("contenedor-palabras");
+const panelTablero = document.querySelector(".panel-tablero");
+const contenedorRelativo = document.querySelector(
+  ".contenedor-tablero-relativo",
+);
 const btnPista = document.getElementById("btn-pista");
 const btnVolver = document.getElementById("btn-volver");
 const txtTiempo = document.getElementById("tiempo-reloj");
 const txtProgreso = document.getElementById("num-progreso");
 const barraProgreso = document.getElementById("barra-progreso");
+
+document.documentElement.style.setProperty("--filas", filas);
+document.documentElement.style.setProperty("--columnas", columnas);
 
 function lanzarJuegoConCategoria(catId, catTxt) {
   AudioJuego.init();
@@ -293,6 +334,33 @@ function lanzarJuegoConCategoria(catId, catTxt) {
   inicializarJuego();
 }
 
+// --- TAMAÑO DE CELDA 100% RESPONSIVE ---
+// Calculamos cuánto espacio horizontal hay realmente disponible (celular,
+// tablet o escritorio) y ajustamos --cell-size para que el tablero SIEMPRE
+// entre completo en la pantalla, sin cortarse ni necesitar scroll lateral.
+function actualizarTamanoCelda() {
+  if (!panelTablero) return;
+  const estilos = getComputedStyle(panelTablero);
+  const paddingH =
+    parseFloat(estilos.paddingLeft || 0) + parseFloat(estilos.paddingRight || 0);
+  const anchoDisponible = panelTablero.clientWidth - paddingH - 4;
+  let tamano = Math.floor(anchoDisponible / columnas);
+  tamano = Math.max(16, Math.min(38, tamano));
+  document.documentElement.style.setProperty("--cell-size", `${tamano}px`);
+  // Después de cambiar el tamaño, los trazos guardados quedan mal
+  // posicionados en píxeles viejos: los recalculamos.
+  redibujarMarcadores();
+}
+
+let resizeTimeout = null;
+window.addEventListener("resize", () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(actualizarTamanoCelda, 80);
+});
+window.addEventListener("orientationchange", () => {
+  setTimeout(actualizarTamanoCelda, 150);
+});
+
 function inicializarJuego() {
   tablero = Array(filas)
     .fill(null)
@@ -301,6 +369,7 @@ function inicializarJuego() {
   palabrasEnTablero = [];
   celdasSeleccionadas = [];
   registroPalabrasInfo = {};
+  marcadoresData = [];
   seleccionando = false;
   celdaInicio = null;
   if (capaResaltadores) capaResaltadores.innerHTML = "";
@@ -356,6 +425,7 @@ function inicializarJuego() {
 
   window.addEventListener("mouseup", finalizarSeleccion);
   renderizarPalabras();
+  actualizarTamanoCelda();
 }
 
 function colocarPalabras() {
@@ -378,6 +448,7 @@ function colocarPalabras() {
   ];
   const vectors = [...vectores, ...diagonales, ...diagonales];
   palabrasOrdenadas.forEach((palabra) => {
+    if (palabra.length > Math.max(filas, columnas)) return;
     let colocada = false,
       intentos = 0;
     while (!colocada && intentos < 1000) {
@@ -505,18 +576,18 @@ function finalizarSeleccion() {
       coloresPastel[palabrasEncontradas.length % coloresPastel.length];
     const inicio = celdasSeleccionadas[0];
     const fin = celdasSeleccionadas[celdasSeleccionadas.length - 1];
-    const x1 = inicio.offsetLeft + 19,
-      y1 = inicio.offsetTop + 19;
-    const x2 = fin.offsetLeft + 19,
-      y2 = fin.offsetTop + 19;
-    const marcador = document.createElement("div");
-    marcador.classList.add("trazo-marcador");
-    marcador.style.backgroundColor = color;
-    marcador.style.width = `${Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) + 34}px`;
-    marcador.style.left = `${x1 - 17}px`;
-    marcador.style.top = `${y1 - 17}px`;
-    marcador.style.transform = `rotate(${Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI)}deg)`;
-    capaResaltadores.appendChild(marcador);
+
+    // Guardamos el trazo en coordenadas de celda (no píxeles) para poder
+    // recalcularlo si el tamaño de celda cambia (responsive).
+    marcadoresData.push({
+      fInicio: parseInt(inicio.dataset.fila),
+      cInicio: parseInt(inicio.dataset.columna),
+      fFin: parseInt(fin.dataset.fila),
+      cFin: parseInt(fin.dataset.columna),
+      color,
+    });
+    dibujarMarcador(marcadoresData[marcadoresData.length - 1]);
+
     celdasSeleccionadas.forEach((c) => c.classList.add("encontrada"));
     renderizarPalabras();
     if (palabrasEncontradas.length === palabrasEnTablero.length) {
@@ -530,6 +601,43 @@ function finalizarSeleccion() {
   for (let i = 0; i < celdasDOM.length; i++)
     celdasDOM[i].classList.remove("seleccionada");
   celdaInicio = null;
+}
+
+// Dibuja un trazo a partir de coordenadas de celda, usando el tamaño de
+// celda REAL medido en el DOM (así siempre queda alineado, sea cual sea
+// el --cell-size actual).
+function dibujarMarcador(m) {
+  const celdasDOM = tableroDiv.children;
+  const inicio = celdasDOM[m.fInicio * columnas + m.cInicio];
+  const fin = celdasDOM[m.fFin * columnas + m.cFin];
+  if (!inicio || !fin) return;
+
+  const cellSize = inicio.offsetWidth;
+  const semi = cellSize / 2;
+  const grosor = cellSize * 0.9;
+
+  const x1 = inicio.offsetLeft + semi,
+    y1 = inicio.offsetTop + semi;
+  const x2 = fin.offsetLeft + semi,
+    y2 = fin.offsetTop + semi;
+
+  const marcador = document.createElement("div");
+  marcador.classList.add("trazo-marcador");
+  marcador.style.backgroundColor = m.color;
+  marcador.style.height = `${grosor}px`;
+  marcador.style.borderRadius = `${grosor / 2}px`;
+  marcador.style.transformOrigin = `${grosor / 2}px ${grosor / 2}px`;
+  marcador.style.width = `${Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)) + grosor}px`;
+  marcador.style.left = `${x1 - grosor / 2}px`;
+  marcador.style.top = `${y1 - grosor / 2}px`;
+  marcador.style.transform = `rotate(${Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI)}deg)`;
+  capaResaltadores.appendChild(marcador);
+}
+
+function redibujarMarcadores() {
+  if (!capaResaltadores) return;
+  capaResaltadores.innerHTML = "";
+  marcadoresData.forEach((m) => dibujarMarcador(m));
 }
 
 // Controladores Touch de Alto Rendimiento para Celulares
@@ -561,9 +669,17 @@ function manejarTouchEnd(e) {
   if (seleccionando) finalizarSeleccion();
 }
 
+// Las palabras NO encontradas mantienen su orden original; las
+// encontradas se van agrupando al final, en el orden en que se
+// descubrieron, para no tener que estar buscándolas en el medio de la
+// lista.
 function renderizarPalabras() {
   contenedorPalabras.innerHTML = "";
-  palabrasEnTablero.forEach((palabra) => {
+  const pendientes = palabrasEnTablero.filter(
+    (p) => !palabrasEncontradas.includes(p),
+  );
+  const ordenFinal = [...pendientes, ...palabrasEncontradas];
+  ordenFinal.forEach((palabra) => {
     const span = document.createElement("span");
     span.classList.add("palabra-lista");
     span.textContent = palabra;
@@ -653,9 +769,10 @@ function volverAlMenu() {
 // Asignar eventos a las tarjetas de categorías fijas
 document.querySelectorAll(".tarjeta-categoria").forEach((btn) => {
   btn.addEventListener("click", () => {
+    const catId = btn.dataset.tema;
     lanzarJuegoConCategoria(
-      btn.dataset.tema,
-      btn.querySelector("h3").textContent,
+      catId,
+      nombresCategorias[catId] || btn.querySelector("h3").textContent,
     );
   });
 });
@@ -678,4 +795,35 @@ btnPista.addEventListener("click", () => {
 
 btnVolver.addEventListener("click", volverAlMenu);
 window.onload = cargarRecordsMenu;
+
+// --- CONTROL DEL BOTÓN DE MÚSICA ---
+const btnMusica = document.getElementById("btn-musica");
+let prefMusica = localStorage.getItem("sopa_musica_activa");
+if (prefMusica === null) prefMusica = "1"; // por defecto: encendida
+
+function actualizarIconoMusica() {
+  btnMusica.textContent = MusicaAmbiente.activo ? "🔊" : "🔇";
+  btnMusica.classList.toggle("silenciada", !MusicaAmbiente.activo);
+  btnMusica.title = MusicaAmbiente.activo
+    ? "Apagar música de fondo"
+    : "Encender música de fondo";
+}
+actualizarIconoMusica();
+
+btnMusica.addEventListener("click", () => {
+  MusicaAmbiente.toggle();
+  actualizarIconoMusica();
+});
+
+// Los navegadores bloquean el audio hasta que hay un gesto del usuario
+// (click/tap), así que intentamos arrancar la música apenas toca algo,
+// solo si su preferencia guardada es "encendida".
+function intentarIniciarMusica() {
+  if (prefMusica === "1" && !MusicaAmbiente.activo) {
+    MusicaAmbiente.play();
+    actualizarIconoMusica();
+  }
+}
+document.addEventListener("click", intentarIniciarMusica, { once: true });
+document.addEventListener("touchend", intentarIniciarMusica, { once: true });
 
