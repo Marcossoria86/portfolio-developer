@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <button id="btn-musica" class="btn-musica-flotante" title="Música de fondo">🔊</button>
+    <script>
+      // Aplicamos el modo oscuro ANTES de pintar la página, para que no haya
+      // un parpadeo de claro->oscuro al cargar.
+      if (localStorage.getItem("sopa_modo_oscuro") === "1") {
+        document.documentElement.dataset.modo = "oscuro";
+      }
+    </script>
+    <div class="barra-flotante">
+      <button id="btn-oscuro" class="btn-flotante" title="Modo oscuro">🌙</button>
+      <button id="btn-musica" class="btn-flotante" title="Música de fondo">🔊</button>
+    </div>
     <canvas
       id="lienzo-confeti"
       style="
@@ -86,9 +96,53 @@
           <p>Dioses, héroes y leyendas antiguas</p>
         </button>
       </div>
+      <div id="grid-personalizadas" class="grid-categorias grid-personalizadas"></div>
+      <button id="btn-abrir-editor" class="tarjeta-categoria tarjeta-agregar">
+        <div class="icono-cat">➕</div>
+        <h3>Crear categoría</h3>
+        <p>Agregá tus propios temas y palabras</p>
+      </button>
       <div class="seccion-records">
         <h3>🏆 Mejores Tiempos</h3>
         <ul id="lista-records"></ul>
+      </div>
+    </div>
+    <!-- Pantalla del Editor de Categorías -->
+    <div id="pantalla-editor" class="contenedor-apple contenedor-editor" style="display: none">
+      <h1>Crear categoría</h1>
+      <p class="subtitulo">
+        Elegí un nombre, un ícono y las palabras que quieras. No hace falta
+        que tengan el mismo largo, el juego las acomoda solo.
+      </p>
+      <label class="etiqueta-campo" for="input-nombre-cat">Nombre de la categoría</label>
+      <input
+        type="text"
+        id="input-nombre-cat"
+        class="campo-editor"
+        maxlength="30"
+        placeholder="Ej: Deportes, Cocina, Series..."
+      />
+      <label class="etiqueta-campo" for="input-icono-cat">Ícono (un emoji, opcional)</label>
+      <input
+        type="text"
+        id="input-icono-cat"
+        class="campo-editor"
+        maxlength="4"
+        placeholder="⚽"
+      />
+      <label class="etiqueta-campo" for="input-palabras-cat"
+        >Palabras (una por línea o separadas por coma)</label
+      >
+      <textarea
+        id="input-palabras-cat"
+        class="campo-editor area-editor"
+        rows="8"
+        placeholder="FUTBOL, BASQUET, TENIS, NATACION, MARATON..."
+      ></textarea>
+      <p id="msg-editor" class="msg-editor"></p>
+      <div class="botones-editor">
+        <button id="btn-guardar-cat" class="btn-primario">Guardar categoría</button>
+        <button id="btn-cancelar-editor" class="btn-secundario">Cancelar</button>
       </div>
     </div>
     <!-- Pantalla del Juego Real -->
