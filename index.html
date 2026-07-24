@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marcos Soria — Desarrollador Frontend</title>
+    <meta
+      name="description"
+      content="Marcos Soria, desarrollador frontend. Interfaces fluidas y accesibles, con lógica sólida en JavaScript puro."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="portfolio.css?v=12" />
+  </head>
+  <body>
+    <script>
+      if (localStorage.getItem("mp_modo_oscuro") === "1") {
+        document.documentElement.dataset.modo = "oscuro";
+      }
+    </script>
+
+    <!-- ======= NAV ======= -->
+    <nav class="navbar" id="navbar">
+      <a href="#inicio" class="wordmark">ms<span class="punto">.</span></a>
+      <ul class="nav-links">
+        <li><a href="#inicio" data-link>Inicio</a></li>
+        <li><a href="#skills" data-link>Stack</a></li>
+        <li><a href="#projects" data-link>Proyectos</a></li>
+        <li><a href="#contact" data-link>Contacto</a></li>
+      </ul>
+      <button id="btn-oscuro" class="btn-tema" title="Modo oscuro" aria-label="Cambiar tema"></button>
+    </nav>
+
+    <!-- ======= HERO ======= -->
+    <header class="hero" id="inicio">
+      <canvas id="lienzo-grafo" class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+        <p class="eyebrow">// disponible para nuevos proyectos</p>
+        <h1 class="hero-title">
+          Construyo interfaces
+          <br />
+          con <span class="resaltado">lógica clara<svg class="subrayado" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path d="M2 14C60 4 240 4 298 14" /></svg></span>.
+        </h1>
+        <p class="hero-subtitle">
+          Soy Marcos Soria, desarrollador frontend. Construyo interfaces
+          fluidas y accesibles, con lógica sólida escrita en JavaScript
+          puro — sin atajos ni frameworks de más.
+        </p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary" data-magnetic>Ver proyectos</a>
+          <a href="#contact" class="btn btn-ghost" data-magnetic>Hablemos</a>
+        </div>
+      </div>
+      <a href="#skills" class="scroll-cue" aria-label="Bajar a la siguiente sección">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 4v15M6 13l6 6 6-6" /></svg>
+      </a>
+    </header>
+
+    <!-- ======= SKILLS ======= -->
+    <section class="skills-section" id="skills">
+      <div class="section-head">
+        <p class="eyebrow">// stack</p>
+        <h2 class="section-title">Con qué trabajo</h2>
+      </div>
+      <div class="skills-list">
+        <div class="skill-row">
+          <span class="skill-tag">MARKUP</span>
+          <h3>HTML5 &amp; CSS3</h3>
+          <p>
+            Estructura semántica y maquetación adaptable: Flexbox, Grid y
+            variables nativas, sin depender de frameworks de CSS.
+          </p>
+        </div>
+        <div class="skill-row">
+          <span class="skill-tag">LOGIC</span>
+          <h3>JavaScript (ES6+)</h3>
+          <p>
+            Manipulación del DOM, manejo de eventos y programación modular
+            — la lógica de cada proyecto la escribo yo, sin librerías de
+            por medio.
+          </p>
+        </div>
+        <div class="skill-row">
+          <span class="skill-tag">VERSIONADO</span>
+          <h3>Git &amp; GitHub</h3>
+          <p>
+            Control de versiones, ramas y despliegues automáticos con
+            GitHub Pages.
+          </p>
+        </div>
+        <div class="skill-row">
+          <span class="skill-tag">EN CAMINO</span>
+          <h3>React</h3>
+          <p>
+            Aprendiendo a fondo: componentes, manejo de estado y consumo
+            de APIs REST.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= PROJECTS (CARRUSEL) ======= -->
+    <section class="projects-section" id="projects">
+      <div class="section-head">
+        <p class="eyebrow">// proyectos</p>
+        <h2 class="section-title">Cosas que construí</h2>
+        <div class="carousel-controles">
+          <span class="carousel-contador"><span id="carousel-actual">01</span> / <span id="carousel-total">06</span></span>
+          <div class="carousel-flechas">
+            <button id="carousel-prev" class="carousel-flecha" aria-label="Proyecto anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7" /></svg>
+            </button>
+            <button id="carousel-next" class="carousel-flecha" aria-label="Proyecto siguiente">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carousel-track">
+          <!-- Proyecto 1 -->
+          <article class="project-card">
+            <div class="project-visual">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5" /><rect x="7.5" y="5.5" width="9" height="4" rx="0.5" /><path d="M7.5 13h1.6M11.2 13h1.6M14.9 13h1.6M7.5 16.3h1.6M11.2 16.3h1.6M14.9 16.3h1.6" /></svg>
+            </div>
+            <div class="project-info">
+              <span class="project-tag">Proyecto activo</span>
+              <h3>Calculadora Pro Avanzada</h3>
+              <p class="project-description">
+                Una herramienta web con cambio de tema, historial dinámico
+                reutilizable, conversores integrados y un parser
+                aritmético desarrollado de forma nativa.
+              </p>
+              <div class="project-tech">
+                <span>HTML5</span><span>CSS Variables</span><span>JS (ES6+)</span>
+              </div>
+              <div class="project-links">
+                <button id="open-calc-btn" class="btn-demo-link">Probar demo →</button>
+                <a
+                  href="https://github.com/Marcossoria86/portfolio-developer/tree/main/calculadora"
+                  target="_blank"
+                  class="link-code"
+                  >Ver código</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Proyecto 2 -->
+          <article class="project-card">
+            <div class="project-visual">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5" /><path d="M3 9h18M3 15h18M9 3v18M15 3v18" /><path d="M6 6l3 3" stroke-width="2" /></svg>
+            </div>
+            <div class="project-info">
+              <span class="project-tag">Nuevo</span>
+              <h3>Sopa de Letras Tech</h3>
+              <p class="project-description">
+                Juego desarrollado en JavaScript puro con selección por
+                arrastre (mouse y touch), cronómetro, récords locales y
+                animaciones con Canvas.
+              </p>
+              <div class="project-tech">
+                <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Canvas</span>
+              </div>
+              <div class="project-links">
+                <button id="open-sopa-btn" class="btn-demo-link">Probar demo →</button>
+                <a
+                  href="https://github.com/Marcossoria86/portfolio-developer/tree/main/sopa-letras"
+                  target="_blank"
+                  class="link-code"
+                  >Ver código</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Proyecto 3 (futuro) -->
+          <article class="project-card project-card--futuro">
+            <div class="project-visual">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" /><path d="M9 12l2 2 4-4" /></svg>
+            </div>
+            <div class="project-info">
+              <span class="project-tag project-tag--futuro">Próximamente</span>
+              <h3>Gestor de Tareas Inteligente</h3>
+              <p class="project-description">
+                Aplicación de productividad enfocada en priorizar
+                actividades mediante algoritmos de tiempo.
+              </p>
+              <div class="project-tech">
+                <span>JavaScript</span><span>IndexedDB</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Proyecto 4 (futuro) -->
+          <article class="project-card project-card--futuro">
+            <div class="project-visual">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="4.5" /><path d="M9 3h6M12 3v3" /><path d="M6.5 8.5L5 7" /></svg>
+            </div>
+            <div class="project-info">
+              <span class="project-tag project-tag--futuro">En planificación</span>
+              <h3>App del Clima Austral</h3>
+              <p class="project-description">
+                Aplicación meteorológica que consumirá APIs globales en
+                tiempo real, con geolocalización automatizada y alertas
+                dinámicas.
+              </p>
+              <div class="project-tech">
+                <span>React</span><span>API REST</span><span>Tailwind</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Proyecto 5 (futuro) -->
+          <article class="project-card project-card--futuro">
+            <div class="project-visual">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9M9 19V5M14 19v-7M19 19V11" /><path d="M4 19h15" /></svg>
+            </div>
+            <div class="project-info">
+              <span class="project-tag project-tag--futuro">Idea futura</span>
+              <h3>Simulador de Ahorro Pro</h3>
+              <p class="project-description">
+                Calculadora de interés compuesto y presupuestos mensuales
+                con proyecciones visuales para analizar el crecimiento
+                del capital.
+              </p>
+              <div class="project-tech">
+                <span>JavaScript</span><span>DOM Avanzado</span><span>CSS Grid</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Proyecto 6 (futuro) -->
+          <article class="project-card project-card--futuro">
+            <div class="project-visual">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></svg>
+            </div>
+            <div class="project-info">
+              <span class="project-tag project-tag--futuro">Idea futura</span>
+              <h3>Temporizador Pomodoro</h3>
+              <p class="project-description">
+                Herramienta de enfoque con ciclos configurables de
+                trabajo y descanso, notificaciones sonoras y
+                personalización de interfaz.
+              </p>
+              <div class="project-tech">
+                <span>HTML5 Audio</span><span>Event Loops</span><span>CSS Themes</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="carousel-progreso"><div id="carousel-progreso-barra"></div></div>
+    </section>
+
+    <!-- ======= CONTACT ======= -->
+    <footer class="contact-section" id="contact">
+      <div class="contact-container">
+        <p class="eyebrow">// contacto</p>
+        <h2 class="section-title">¿Tenés un proyecto en mente?</h2>
+        <form
+          action="https://formsubmit.co/molotoria@gmail.com"
+          method="POST"
+          id="portfolio-form"
+          class="contact-form"
+        >
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="form-group">
+            <label for="f-name">Nombre</label>
+            <input type="text" id="f-name" name="name" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="f-email">Correo</label>
+            <input type="email" id="f-email" name="email" placeholder="tu@correo.com" required />
+          </div>
+          <div class="form-group">
+            <label for="f-message">Mensaje</label>
+            <textarea
+              id="f-message"
+              name="message"
+              rows="4"
+              placeholder="Contame tu propuesta..."
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-submit">Enviar mensaje</button>
+        </form>
+
+        <div class="social-links">
+          <a href="https://www.linkedin.com/in/marcos-soria-74069b118/" target="_blank">LinkedIn</a>
+          <a href="https://github.com/Marcossoria86" target="_blank">GitHub</a>
+        </div>
+        <p class="footer-credits">Diseñado y programado por Marcos Soria — 2026</p>
+      </div>
+    </footer>
+
+    <!-- ======= MODALES ======= -->
+    <div id="calc-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Calculadora Pro</h3>
+          <button id="close-calc-btn" class="modal-close" aria-label="Cerrar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <iframe src="calculadora/index.html" class="modal-iframe"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div id="sopa-modal" class="modal-overlay">
+      <div class="modal-content modal-large">
+        <div class="modal-header">
+          <h3>Sopa de Letras Tech</h3>
+          <button id="close-sopa-btn" class="modal-close" aria-label="Cerrar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <iframe src="sopa-letras/index.html" class="modal-iframe"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script src="portfolio.js?v=9"></script>
+  </body>
+</html>
