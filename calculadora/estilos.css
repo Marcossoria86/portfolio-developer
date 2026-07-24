@@ -1,0 +1,414 @@
+/* --- VARIABLES ESTILO IPHONE BUBBLE GLASS --- */
+:root {
+  --bg-app:
+    radial-gradient(rgba(0, 0, 0, 0.02) 1.5px, transparent 0),
+    linear-gradient(135deg, #f0f3f8 0%, #dbe2ef 100%);
+  --bg-app-size: 24px 24px, 100% 100%;
+  --bg-calc: rgba(240, 244, 248, 0.4);
+  --border-calc: rgba(255, 255, 255, 0.7);
+  --text-main: #1c1c1e;
+
+  /* Efecto Burbuja Esmerilada (Sombras encontradas para dar relieve de volumen) */
+  --shadow-calc:
+    0 30px 60px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  --bg-display: rgba(235, 240, 245, 0.5);
+  --shadow-display:
+    inset 2px 2px 5px rgba(0, 0, 0, 0.05),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+
+  --blob-c1: #c7d2fe;
+  --blob-c2: #fbcfe8;
+
+  /* Botones Burbuja Aplastada Claros */
+  --bg-btn: rgba(240, 244, 250, 0.5);
+  --border-btn: rgba(255, 255, 255, 0.6);
+  --shadow-btn:
+    4px 4px 10px rgba(166, 180, 200, 0.3),
+    -4px -4px 10px rgba(255, 255, 255, 0.8),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.7);
+
+  --shadow-btn-active:
+    inset 3px 3px 6px rgba(166, 180, 200, 0.4),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+
+  /* Operadores con relieve azul de Apple */
+  --bg-accent: rgba(79, 70, 229, 0.1);
+  --border-accent: rgba(129, 140, 248, 0.3);
+  --text-accent: #4f46e5;
+  --shadow-accent:
+    4px 4px 10px rgba(79, 70, 229, 0.15),
+    -4px -4px 10px rgba(255, 255, 255, 0.8),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.6);
+
+  --bg-equal: #34c759;
+  --shadow-equal:
+    4px 4px 12px rgba(52, 199, 89, 0.3), -2px -2px 8px rgba(255, 255, 255, 0.7),
+    inset 1px 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.dark-theme {
+  --bg-app:
+    radial-gradient(rgba(255, 255, 255, 0.01) 1.5px, transparent 0),
+    linear-gradient(135deg, #090a0f 0%, #151821 100%);
+  --bg-app-size: 24px 24px, 100% 100%;
+  --bg-calc: rgba(20, 25, 35, 0.45);
+  --border-calc: rgba(255, 255, 255, 0.05);
+  --text-main: #f2f2f7;
+  --bg-display: rgba(10, 12, 18, 0.4);
+  --shadow-calc:
+    0 40px 80px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+
+  --blob-c1: #1e1b4b;
+  --blob-c2: #2e1065;
+
+  /* Botones Burbuja Oscuros */
+  --bg-btn: rgba(30, 35, 45, 0.4);
+  --border-btn: rgba(255, 255, 255, 0.03);
+  --shadow-btn:
+    5px 5px 12px rgba(0, 0, 0, 0.4), -4px -4px 12px rgba(255, 255, 255, 0.04),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.05);
+
+  --shadow-btn-active:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.03);
+
+  --bg-accent: rgba(99, 102, 241, 0.12);
+  --border-accent: rgba(99, 102, 241, 0.15);
+  --text-accent: #818cf8;
+  --shadow-accent:
+    5px 5px 12px rgba(0, 0, 0, 0.4), -4px -4px 12px rgba(255, 255, 255, 0.04),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.1);
+
+  --bg-equal: #2ebd54;
+  --shadow-equal:
+    5px 5px 15px rgba(0, 0, 0, 0.4), inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* --- CONFIGURACIÓN BASE --- */
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background: var(--bg-app);
+  background-size: var(--bg-app-size);
+  color: var(--text-main);
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow-y: auto;
+  transition: background 0.4s ease;
+}
+
+.blob-gradient {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0.65;
+}
+.blob-1 {
+  width: 280px;
+  height: 280px;
+  background: var(--blob-c1);
+  top: -5%;
+  left: 10%;
+}
+.blob-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--blob-c2);
+  top: 30%;
+  right: 5%;
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.theme-btn {
+  width: auto;
+  height: auto;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 12px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  align-self: flex-end;
+}
+
+/* --- ESTRUCTURA DE LA CALCULADORA --- */
+.cuadricula {
+  background: var(--bg-calc);
+  border: 1px solid var(--border-calc);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  padding: 16px;
+  border-radius: 32px;
+  box-shadow: var(--shadow-calc);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto repeat(5, 48px);
+  gap: 10px;
+  width: 100%; /* Cambia de 340px fijo a 100% fluido */
+  max-width: 340px; /* Evita que se estire de más en pantallas grandes */
+  box-sizing: border-box;
+}
+
+.display-container {
+  grid-column: span 4;
+  display: flex;
+  align-items: center;
+  background: var(--bg-display);
+  border: 1px solid var(--border-btn);
+  border-radius: 20px;
+  padding: 0 16px;
+  height: 56px;
+  margin-bottom: 2px;
+  box-shadow: var(--shadow-display); /* Efecto hundido para la pantalla */
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  min-width: 0;
+  height: 100%;
+  text-align: right;
+  font-size: 7vw; /* Cambia de 26px a 7vw para que la letra se encoja elásticamente en celulares */
+  font-size: clamp(
+    16px,
+    7vw,
+    26px
+  ); /* Elige el tamaño fluido, pero nunca baja de 16px ni sube de 26px */
+  /* Evita que se agrande demasiado en pantallas gigantes */
+  font-family: "Orbitron", sans-serif;
+  grid-column: span 4;
+
+  background: transparent;
+  color: var(--text-main);
+  border: none;
+  outline: none;
+  font-weight: 700;
+}
+
+#copy-btn {
+  width: 34px;
+  height: 34px;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  opacity: 0.5;
+  cursor: pointer;
+}
+#copy-btn:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+/* --- BOTONES CON RELIEVE DE BURBUJA (NEUMORFISMO) --- */
+button {
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 700;
+  border: 1px solid var(--border-btn);
+  border-radius: 20px; /* Redondeado orgánico tipo burbuja de iOS */
+  background: var(--bg-btn);
+  color: var(--text-main);
+  cursor: pointer;
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  box-shadow: var(--shadow-btn); /* Relieve hacia afuera */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+button:hover {
+  transform: scale(1.02); /* Infla sutilmente la burbuja al pasar el mouse */
+}
+
+button:active {
+  box-shadow: var(
+    --shadow-btn-active
+  ); /* Invierte las sombras para simular que la burbuja se aplastó */
+  transform: scale(0.96);
+}
+
+/* Operadores Aritméticos con relieve entintado */
+#divide,
+#multiply,
+#add,
+#subtract,
+#percent,
+#pow,
+#open-parenthesis,
+#close-parenthesis,
+#backspace {
+  background: var(--bg-accent);
+  border-color: var(--border-accent);
+  color: var(--text-accent);
+  box-shadow: var(--shadow-accent);
+  font-size: 22px;
+}
+#divide:active,
+#multiply:active,
+#add:active,
+#subtract:active,
+#percent:active,
+#pow:active,
+#open-parenthesis:active,
+#close-parenthesis:active,
+#backspace:active {
+  box-shadow: var(--shadow-btn-active);
+}
+
+#clear {
+  color: #ff3b30;
+  background: rgba(255, 59, 48, 0.08);
+  border-color: rgba(255, 59, 48, 0.15);
+  box-shadow:
+    4px 4px 10px rgba(255, 59, 48, 0.1),
+    -4px -4px 10px rgba(255, 255, 255, 0.8);
+}
+#clear:active {
+  box-shadow: var(--shadow-btn-active);
+}
+
+#multiply,
+#decimal,
+#subtract {
+  font-size: 26px;
+}
+
+/* Botón Igual de Goma Inflada Verde */
+#equals {
+  grid-row: span 2;
+  background: var(--bg-equal);
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+  box-shadow: var(--shadow-equal);
+}
+#equals:hover {
+  transform: scale(1.02);
+}
+#equals:active {
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(0.96);
+}
+
+#zero {
+  grid-column: span 2;
+}
+
+/* --- SECCIÓN HISTORIAL --- */
+h2 {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 18px;
+  margin-bottom: 0;
+  opacity: 0.6;
+}
+
+#clear-history,
+#export-history {
+  height: 38px;
+  padding: 0 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: 1px solid var(--border-btn);
+  box-shadow: var(--shadow-btn);
+  transition: all 0.12s ease;
+}
+#clear-history {
+  background: transparent;
+}
+#clear-history:active {
+  box-shadow: var(--shadow-btn-active);
+  transform: scale(0.96);
+}
+
+#export-history {
+  background: #4f46e5 !important;
+  color: white !important;
+  border: none;
+  box-shadow: var(--shadow-equal);
+}
+#export-history:active {
+  transform: scale(0.96);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#history {
+  list-style: none;
+  padding: 0 6px;
+  margin: 14px auto 24px;
+  width: 100%; /* Cambia a 100% fluido */
+  max-width: 340px; /* Mantiene proporción con la cuadrícula */
+  max-height: 130px;
+  overflow-y: auto;
+}
+
+#history li {
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border-radius: 16px;
+  font-size: 13px;
+  text-align: right;
+  background: var(--bg-display);
+  border: 1px solid var(--border-btn);
+  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  box-sizing: border-box; /* Asegura que los paddings no ensanchen la celda */
+}
+
+#history li:hover {
+  transform: translateX(-3px) scale(1.01);
+  border-color: var(--text-accent);
+}
+
+.hist-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.hist-cuenta {
+  font-size: 11px;
+  opacity: 0.5;
+  font-family: "Orbitron", sans-serif;
+}
+.hist-resultado {
+  font-weight: 700;
+  color: var(--text-accent);
+  font-family: "Orbitron", sans-serif;
+}
+@media (max-width: 360px) {
+  .cuadricula {
+    padding: 14px;
+    gap: 8px;
+  }
+  button {
+    font-size: 18px;
+    border-radius: 14px;
+  }
+  .display-container {
+    height: 56px;
+  }
+  input[type="text"] {
+    font-size: 22px;
+  }
+}
