@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora iOS Style</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="estilos.css" />
+  </head>
+  <body>
+    <!-- Capas de luces de fondo para lograr el efecto vidrio real de iOS -->
+    <div class="blob-gradient blob-1"></div>
+    <div class="blob-gradient blob-2"></div>
+
+    <button id="theme-toggle" class="theme-btn">🌙 Modo Oscuro</button>
+
+    <h1>Calculadora</h1>
+
+    <div class="cuadricula">
+      <div class="display-container">
+        <input type="text" placeholder="0" id="display" readonly />
+        <button id="copy-btn" title="Copiar resultado">📋</button>
+      </div>
+      <button id="pow">^</button>
+      <button id="open-parenthesis">(</button>
+      <button id="close-parenthesis">)</button>
+      <button id="percent">%</button>
+
+      <button id="clear">AC</button>
+      <button id="backspace">⌫</button>
+      <button id="divide">÷</button>
+      <button id="multiply">×</button>
+
+      <button id="seven">7</button>
+      <button id="eight">8</button>
+      <button id="nine">9</button>
+      <button id="subtract">-</button>
+
+      <button id="four">4</button>
+      <button id="five">5</button>
+      <button id="six">6</button>
+      <button id="add">+</button>
+
+      <button id="one">1</button>
+      <button id="two">2</button>
+      <button id="three">3</button>
+      <button id="equals">=</button>
+
+      <button id="zero">0</button>
+      <button id="decimal">.</button>
+    </div>
+
+    <div class="fila-historial">
+      <button id="btn-abrir-historial" class="btn-historial-icono" title="Ver historial" aria-label="Ver historial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /><path d="M12 7v5l4 2" /></svg>
+      </button>
+      <button id="clear-history" class="btn-historial-chico">Borrar</button>
+      <button id="export-history" class="btn-historial-chico btn-historial-exportar">📥 .TXT</button>
+    </div>
+    <div id="overlay-historial" class="overlay-historial">
+      <div class="panel-historial">
+        <div class="panel-historial-header">
+          <h2>Historial</h2>
+          <button id="cerrar-historial" class="cerrar-historial" aria-label="Cerrar">&times;</button>
+        </div>
+        <ul id="history"></ul>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
